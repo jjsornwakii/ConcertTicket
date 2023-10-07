@@ -3,18 +3,21 @@ import React, { useState } from 'react';
 import "./ModalCSS/PayoutModal.css";
 import axios from 'axios';
 import { text } from "stream/consumers";
+import { UserID, hookupUrl } from "../NavBar";
+import { dbURL } from "../../../DB";
+
+
 interface Props {
   iconClose: string;
   iconKeyboardArrow: string;
  Balance: number;
- userId: string;
  BalanceCheck: () => Promise<void>;
 }
 
 export const PayoutModal = ({
   iconClose = "icon-close.png",
   iconKeyboardArrow = "icon-keyboard-arrow-down.png",
-  Balance,userId, BalanceCheck
+  Balance, BalanceCheck
  
 }: Props): JSX.Element => {
   const [inputMinusValue, setinputMinusValue] = useState('');
@@ -36,13 +39,13 @@ export const PayoutModal = ({
   const MinusBalance = async (TickMoney: number) => {
     console.log("MinusBalance is showed");
     const requestBody = {
-      user_id: Number(userId),
+      user_id: UserID,
       Ticketpay: TickMoney,
     };
     
     try {
       const response = await axios.post(
-        'https://cors-anywhere.herokuapp.com/https://project-8rtdrrksb-shidkung.vercel.app/Ticketpay/minus',
+        hookupUrl+dbURL+'/Ticketpay/minus',
        requestBody
       );
       const responseData = response.data; // Response data is plain text

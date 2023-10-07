@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import "../Components/CSS/ConcertInfoPage.css"
-import Navbar, { UserID } from '../Components/Common/NavBar';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom'; // เพิ่มการนำเข้าคำสั่ง useParams
-import { Employ, EventData, UserData } from './Interface';
+import Navbar, { UserID, hookupUrl } from '../Components/Common/NavBar';
+import { Link, useLocation } from 'react-router-dom';
+import { useParams, useNavigate  } from 'react-router-dom'; // เพิ่มการนำเข้าคำสั่ง useParams
+import { Employ, EventData, GetHiringByBuyerId, UserData } from './Interface';
 
 import { dbURL } from '../DB';
 import { Username } from '../Components/Common/NavBar';
 import axios, { AxiosResponse } from 'axios';
+import FailTicketComponent from '../Components/LoadingComponent/FailTicketComponent';
+import GetTicketComponent from '../Components/LoadingComponent/GetTicketComponent';
+import { colors } from '@mui/material';
 
 
 
 
+const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => {
+  const navigate = useNavigate();
 
-const ConcertInfoPage = () => {
-
-  
-  const hookupUrl = "https://cors-anywhere.herokuapp.com/"
   const { concertId } = useParams();
+  const location = useLocation();
+  const data = location.state as GetHiringByBuyerId;
+
+  const role = localStorage.getItem("role");
+
+
+  console.log(data);
+
 
   console.log(concertId);
   const [concertData, setData] = useState<EventData[]>([]);
@@ -32,7 +41,7 @@ const ConcertInfoPage = () => {
     // สร้างฟังก์ชัน async เพื่อรับข้อมูล concert ทั้งหมด
     const fetchConcert = async () => {
       try {
-        const response = await fetch(hookupUrl+dbURL + 'concerts');         // <--------------------------- เปลี่ยนใส่ API ของคิดดดดดดดดดดดดดดดดดดดดดดดดด
+        const response = await fetch(hookupUrl + dbURL + 'concerts');         // <--------------------------- เปลี่ยนใส่ API ของคิดดดดดดดดดดดดดดดดดดดดดดดดด
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -50,7 +59,7 @@ const ConcertInfoPage = () => {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(hookupUrl+dbURL + 'users');         // <--------------------------- เปลี่ยนใส่ API ของคิดดดดดดดดดดดดดดดดดดดดดดดดด
+        const response = await fetch(hookupUrl + dbURL + 'users');         // <--------------------------- เปลี่ยนใส่ API ของคิดดดดดดดดดดดดดดดดดดดดดดดดด
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -83,11 +92,9 @@ const ConcertInfoPage = () => {
 
     // Send the POST request
     try {
-      const response = await axios.post(
-        hookupUrl+dbURL+'concerts/employ',
-        postData
-      );
-  
+      const response = await axios.post(hookupUrl + dbURL + 'concerts/employ', postData);
+
+      console.log(response.data);
       console.log("จ้างสำเร็จ");
 
     } catch (error) {
@@ -97,6 +104,76 @@ const ConcertInfoPage = () => {
 
   };
 
+  const handleGetTicketforRecieverClick = async (id: number, concertName: string, _reciever_id: number, _buyer_id: number) => {
+
+    const postData = {
+      id: id ,
+      buyer_id: _buyer_id,
+      Concert_name : concertName,
+      reciever_id : _reciever_id
+    };
+
+    console.log(postData);
+
+    // Send the POST request
+    try {
+      const response = await axios.post(hookupUrl + dbURL + 'concerts/employbuy', postData);
+
+      console.log(response.data);
+      console.log("ซื้อให้ลูกค้าสำเร็จ");
+
+    } catch (error) {
+      // Handle errors
+      console.error('TicketList error:', error);
+    }
+
+  };
+
+  const handleGetTicketsClick = async (_user_id: string, ticket: number, concert_name: string) => {
+
+    const currentTime = new Date();
+    const allowedStartTime = new Date(currentTime);
+    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (13:00)
+  
+    const allowedEndTime = new Date(currentTime);
+    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (16:00)
+  
+    if (currentTime >= allowedStartTime && currentTime <= allowedEndTime) {
+      const postData = {
+        user_id: _user_id,
+        Ticket: ticket,
+        Concert_name: concert_name
+      };
+    
+      try {
+        const response = await axios.post(
+          hookupUrl + dbURL + 'concerts/buys',
+          postData
+        );
+
+          console.log(response.data);
+
+        navigate('/loading');
+        if (response.status === 201) {
+          setTicketStatus(true); // อัปเดตค่า ticketStatus เป็น true
+          console.log('กดบัตรได้แล้ว ไอเวร');
+        } else {
+          setTicketStatus(false); // อัปเดตค่า ticketStatus เป็น false
+          console.log('กดช้าไป โง่นัก');
+        }
+      } catch (error) {
+        console.error('เออเร่อนะไอโง่ :', error);
+      }
+    } else {
+      // ถ้าไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร
+      console.log('ไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร');
+    }
+  };
+
+
+  
+
+
 
   console.log(Username);
   const selectedConcert = concertData.find(concert => concert.id === concertId);
@@ -104,7 +181,7 @@ const ConcertInfoPage = () => {
   const conName = selectedConcert?.name as string;
   console.log(conName);
 
-  // กรองให้เหลือแต่ role hiring
+  // กรองให้เหลือแต่ role hiring(worker) สำหรับแสดงให้ user กดจ้าง worker
   const hiringRecipients = recipients.filter(recipient => recipient.role === "hiring");
   //console.log(hiringRecipients);
 
@@ -121,9 +198,15 @@ const ConcertInfoPage = () => {
           </img>
           <div className="container" id="ticketLine">
             <h2 id="concertTicket">{selectedConcert?.Start}</h2>
-            <Link to="/loading">
-              <button type="button" id="btn1">GET TICKETS</button>
-            </Link>
+
+            {role === 'user' ? (
+              <Link to="/loading">
+                 <button type="button" id="btn1" onClick={() => handleGetTicketsClick(UserID, 1, conName)}>GET TICKETS</button> 
+              </Link>
+            ) : (
+              <Link to="/loading">
+                 <button type="button" id="btn1"  onClick={() => handleGetTicketforRecieverClick(data.id, data.concert_name, data.reciever_id,data.buyer_id)}>GET TICKETS For Customer</button>
+              </Link>)}
           </div>
           <div className="container" id="lineContainer">
             <h2 id="text1">รายละเอียด</h2>
@@ -142,42 +225,42 @@ const ConcertInfoPage = () => {
         </div>
 
 
+        {role === 'user' ? (
+          <div className="column">
+            <div className="container" id="recipientSelectBox">
+              <div className="container" id="recipientList">
+                <h2 id="recipientHeader">ผู้รับกดบัตร</h2>
 
-        <div className="column">
-          <div className="container" id="recipientSelectBox">
-            <div className="container" id="recipientList">
-              <h2 id="recipientHeader">ผู้รับกดบัตร</h2>
+                {hiringRecipients.map((recipient) => (
+                  <div className="container" id="person" key={recipient.user_id}>
 
-              {hiringRecipients.map((recipient) => (
-                <div className="container" id="person" key={recipient.user_id}>
+                    <div className="left-content">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <path d="M14 2.625C7.72789 2.625 2.625 7.72789 2.625 14C2.625 20.2721 7.72789 25.375 14 25.375C20.2721 25.375 25.375 20.2721 25.375 14C25.375 7.72789 20.2721 2.625 14 2.625ZM11.2536 9.01359C11.9465 8.27914 12.9216 7.875 14 7.875C15.0784 7.875 16.0448 8.28188 16.7404 9.02016C17.4453 9.76828 17.7882 10.7734 17.7073 11.8541C17.5454 14 15.8829 15.75 14 15.75C12.1171 15.75 10.4513 14 10.2927 11.8535C10.2123 10.7641 10.5547 9.7557 11.2536 9.01359ZM14 23.625C12.7151 23.6258 11.4431 23.3687 10.2595 22.8687C9.07581 22.3688 8.00461 21.6362 7.10938 20.7145C7.6221 19.9833 8.2754 19.3617 9.03109 18.8858C10.4251 17.9922 12.1893 17.5 14 17.5C15.8107 17.5 17.5749 17.9922 18.9673 18.8858C19.7236 19.3614 20.3775 19.9831 20.8906 20.7145C19.9955 21.6363 18.9243 22.3689 17.7406 22.8689C16.5569 23.3689 15.2849 23.626 14 23.625Z" fill="black" />
+                      </svg>
 
-                  <div className="left-content">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                      <path d="M14 2.625C7.72789 2.625 2.625 7.72789 2.625 14C2.625 20.2721 7.72789 25.375 14 25.375C20.2721 25.375 25.375 20.2721 25.375 14C25.375 7.72789 20.2721 2.625 14 2.625ZM11.2536 9.01359C11.9465 8.27914 12.9216 7.875 14 7.875C15.0784 7.875 16.0448 8.28188 16.7404 9.02016C17.4453 9.76828 17.7882 10.7734 17.7073 11.8541C17.5454 14 15.8829 15.75 14 15.75C12.1171 15.75 10.4513 14 10.2927 11.8535C10.2123 10.7641 10.5547 9.7557 11.2536 9.01359ZM14 23.625C12.7151 23.6258 11.4431 23.3687 10.2595 22.8687C9.07581 22.3688 8.00461 21.6362 7.10938 20.7145C7.6221 19.9833 8.2754 19.3617 9.03109 18.8858C10.4251 17.9922 12.1893 17.5 14 17.5C15.8107 17.5 17.5749 17.9922 18.9673 18.8858C19.7236 19.3614 20.3775 19.9831 20.8906 20.7145C19.9955 21.6363 18.9243 22.3689 17.7406 22.8689C16.5569 23.3689 15.2849 23.626 14 23.625Z" fill="black" />
-                    </svg>
+                      <p>{recipient.name}</p>
 
-                    <p>{recipient.name}</p>
+                    </div>
+                    <div className="right-content">
+                      <button type="button" onClick={() => {
+                        if (conName) {
+                          handleHireButtonClick(recipient.user_id, conName, UserID, 1);
+                        } else {
 
-                  </div>
-                  <div className="right-content">
-                    <button type="button" onClick={() => {
-                      if (conName) {
-                        handleHireButtonClick(recipient.user_id, conName , UserID , 1);                  
-                      } else {
-                        // Handle the case where conName is undefined
-                        // You can show an error message or perform other actions here
+                        }
                       }
-                    }
-                    } >จ้าง</button>
-                </div>
-                </div>
+                      } >จ้าง</button>
+                    </div>
+                  </div>
 
-              ))}
+                ))}
 
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (<></>)}
       </div>
-    </div>
     </div >
   )
 };

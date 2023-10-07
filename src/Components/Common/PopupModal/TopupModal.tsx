@@ -2,18 +2,20 @@ import PropTypes from "prop-types";
 import "./ModalCSS/TopupModal.css";
 import React, { useState } from 'react';
 import axios from 'axios';
+import { dbURL } from "../../../DB";
+import { UserID } from "../NavBar";
 interface Props {
   iconClose: string;
   iconKeyboardArrow: string;
   Balance: number;
-  userId: string;
+  // userId: string;
   BalanceCheck: () => Promise<void>;
 }
 
 export const TopupModal = ({
   iconClose = "icon-close.png",
   iconKeyboardArrow = "icon-keyboard-arrow-down.png",
-  Balance,userId,BalanceCheck
+  Balance,BalanceCheck
 }: Props): JSX.Element => {
   const [inputAddValue, setinputAddValue] = useState('');
 
@@ -24,23 +26,23 @@ export const TopupModal = ({
       const tickMoney = parseFloat(inputAddValue); // Parse the input value to a float
       if (!isNaN(tickMoney)) {
         // Check if the parsed value is a valid number
+        console.log(tickMoney);
         await AddBalance(tickMoney);
-       
       }
       BalanceCheck();
     };
 
 
   const AddBalance = async (TickMoney: number) => {
-    console.log("MinusBalance is showed");
+    console.log("user_id: " + UserID + " AddBalance");
     const requestBody = {
-      user_id: Number(userId),
+      user_id: Number(UserID),
       Ticketpay: TickMoney,
     };
     
     try {
       const response = await axios.post(
-        'https://cors-anywhere.herokuapp.com/https://project-8rtdrrksb-shidkung.vercel.app/Ticketpay/add',
+        dbURL+'Ticketpay/add',
        requestBody
       );
       const responseData = response.data; // Response data is plain text
@@ -64,7 +66,9 @@ export const TopupModal = ({
           <div className="div">
             <div className="frame-2">
               <div className="text-wrapper">ยอดเงินในบัญชี SafeTicket</div>
-              <div className="text-wrapper-2">{Balance === 0 ? 'Loading' : Balance.toFixed(2) + " ₿"}</div>
+              <div className="text-wrapper-2">
+                {Balance === undefined ? '0.00 ฿' : Balance.toFixed(2) + " ₿"}
+              </div>
             </div>
             <hr className="line"/>
             <div className="frame-3">

@@ -43,7 +43,36 @@ export interface GetHiringByBuyerId {
   Ticketpay: number,
   TicketNum: number,
   buyer_id: number,
+  buyer_username: string,
   reciever_id: number,
-  Concert_id: number,
-  Accepting: false
+  reciever_username: string,
+  concert_id: string,
+  concert_name: string,
+  Accepting: boolean,
+  Complete: boolean
+
+
+}
+
+export interface GetHiringByReceiverId{
+
+  id: number,
+  created_a: string,
+  Ticketpay: number,
+  TicketNum: number,
+  buyer_id: number,
+  buyer_username: string,
+  reciever_id: number,
+  reciever_username: string,
+  concert_id: string,
+  concert_name: string,
+  Accepting: boolean,
+  Complete: boolean
+}
+
+
+export interface InBag{
+  url : string ,
+  Concert_name : string,
+  Ticket : string 
 }
