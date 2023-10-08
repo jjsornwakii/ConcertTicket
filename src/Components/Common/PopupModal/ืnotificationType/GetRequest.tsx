@@ -17,8 +17,7 @@ interface Props {
 
 function GetRequest({ data }: Props) {
 
-  
-
+  const [isVisible, setIsVisible] = useState(true);
 
 
   const containerStyle: React.CSSProperties = {
@@ -57,7 +56,7 @@ function GetRequest({ data }: Props) {
 
     console.log(response.data);
     console.log("ตอบรับแล้วนะครับน้องๆ");
-
+    alert("คุณได้ตอบรับคำสั่งซื้อของลูกค้า");
   } catch (error) {
     // Handle errors
     console.error('TicketList error:', error);
@@ -82,8 +81,8 @@ function GetRequest({ data }: Props) {
     const response = await axios.post(hookupUrl+dbURL+'concerts/inject',postData);
 
     console.log(response.data);
-    console.log("rejectแล้วนะครับน้องๆ");
-
+    console.log("worker/buyer reject");
+    setIsVisible(false);
   } catch (error) {
     // Handle errors
     console.error('TicketList error:', error);
@@ -102,7 +101,7 @@ function GetRequest({ data }: Props) {
 
 
 
-  return (
+  return isVisible ? (
 
     <div>
       <div className="RequestBuyer" style={{
@@ -152,13 +151,13 @@ function GetRequest({ data }: Props) {
               </Link>
           ) : (
             // Render this content if data.Accepting is not true
-            <>
+            <div style={{display: 'flex', gap: '70px'}}>
               <IconButton
                 style={{
                   fontSize: '12px',
                   backgroundColor: '#FFA62B',
                   borderRadius: '5px',
-                  width: '135px',
+                  width: '40%',
                   height: '24px',
                   color: 'white',
                 }}
@@ -172,7 +171,7 @@ function GetRequest({ data }: Props) {
                   fontSize: '12px',
                   backgroundColor: '#888',
                   borderRadius: '5px',
-                  width: '135px',
+                  width: '40%',
                   height: '24px',
                   color: 'white',
                 }}
@@ -180,11 +179,11 @@ function GetRequest({ data }: Props) {
               >
                 ปฏิเสธ
               </IconButton>
-            </>
+            </div>
           )}
       </div>
     </div>
-  );
+  ) : null
 }
 
 export default GetRequest;

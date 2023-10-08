@@ -17,7 +17,7 @@ const FailTicketComponent: React.FC<LoadingComponentProps> = ({ isLoading }) => 
             <img src={SadeSVG} alt='Smile SVG' />
             <h2>เสียใจด้วย บัตรหมดแล้ว</h2>
             <button className='button-home'>
-              <Link to="/">
+              <Link to="http://localhost:3000/">
                 <div className='button-home__text'>
                   กลับไปหน้าหลัก
                 </div>

@@ -26,7 +26,6 @@ const NotiList: React.FC = () => {
   //   const [isGotMoney, setisGotMoney] = useState(false);//got money from user
   const [myList, setList] = useState<GetHiringByBuyerId[]>([]); //got request from user
 
-
   var role = localStorage.getItem('role');
 
   console.log(role);
@@ -131,6 +130,7 @@ const NotiList: React.FC = () => {
 
       {isPaying && <PayingModal iconClose="icon-close.png" />}
     </>
+    
   );
 };
 

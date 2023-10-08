@@ -3,6 +3,7 @@ import React from 'react';
 import SmileSVG from '../SVG/SmileVector.svg';
 
 import './GetTicketComponent.css';
+import { Link } from 'react-router-dom';
 
 interface LoadingComponentProps {
   isLoading: boolean;
@@ -19,9 +20,11 @@ const GetTicketComponent: React.FC<LoadingComponentProps> = ({ isLoading }) => {
             <h2>เย่! คุณได้บัตรแล้ว</h2>
             <h2>กรุณาเช็คที่กระเป๋า</h2>
             <button className='button-home'>
-                <div className='button-home__text'>
-                กลับไปหน้าหลัก
-                </div>
+              <Link to="http://localhost:3000/">
+                  <div className='button-home__text'>
+                    กลับไปหน้าหลัก
+                  </div>
+              </Link>
             </button>
           </div>
           

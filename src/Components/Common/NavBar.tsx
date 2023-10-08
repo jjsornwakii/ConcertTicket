@@ -196,7 +196,7 @@ const Navbar = () => {
       localStorage.setItem("Username", Username);
       localStorage.setItem("Id", UserID);
 
-      window.location.reload();
+      window.location.href = 'http://localhost:3000/';
 
       // You can also perform actions such as setting the user's token in state or redirecting the user to another page
     } catch (error) {
@@ -457,7 +457,7 @@ const Navbar = () => {
                   </IconButton>
                   <IconButton
                     style={iconStyle}
-                    onMouseEnter={handlenotiClick}
+                    onClick={handlenotiClick}
                     onMouseLeave={handleNonotiClick}
                   >
                     <svg
@@ -522,7 +522,7 @@ const Navbar = () => {
 
                   <IconButton
                     style={iconStyle}
-                    onMouseEnter={handlenotiClick}
+                    onClick={handlenotiClick}
                     onMouseLeave={handleNonotiClick}
                   >
                     <svg

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { GetHiringByReceiverId } from '../../../../Pages/Interface';
@@ -12,6 +12,7 @@ interface Props {
 }
 
 function IsAccept({ data }: Props) {
+  const [isVisible, setIsVisible] = useState(true);
 
   const containerStyle: React.CSSProperties = {
     display: "flex",
@@ -46,7 +47,8 @@ function IsAccept({ data }: Props) {
       const response = await axios.post(hookupUrl+dbURL+'concerts/inject',postData);
   
       console.log(response.data);
-      console.log("rejectแล้วนะครับน้องๆ");
+      console.log("เรา reject");
+      setIsVisible(false);
   
     } catch (error) {
       // Handle errors
@@ -57,22 +59,31 @@ function IsAccept({ data }: Props) {
 
 
 
-  return (
+  return isVisible ? (
     <div className="BuyerAccept" style={containerStyle}>
       <div style={{ marginRight: 'auto', marginLeft: '20px', marginTop: 'auto' }}>
         {!data.Accepting ? (
-          <Typography fontSize={'16px'}>คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ</Typography>
+          <div>
+            <Typography fontSize={'20px'}>ORDER# {data.id}</Typography>
+            <Typography>{data.concert_name}</Typography>
+            <Typography fontSize={'16px'}>คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ</Typography>
+          </div>
         ) : (
-          <Typography  fontSize={'16px'}>{data.buyer_username} ได้ตอบรับคำสั่งซื้อ {data.concert_name} จำนวน {data.TicketNum} แล้ว  กรุณารอผู้รับจ้างกดบัตร {data.Ticketpay}</Typography>
+          <div>
+            <Typography fontSize={'20px'}>ORDER# {data.id}</Typography>
+            <Typography  fontSize={'16px'}>{data.buyer_username} ได้ตอบรับคำสั่งซื้อ {data.concert_name} จำนวน {data.TicketNum} ใบแล้ว  กรุณารอผู้รับจ้างกดบัตร {data.Ticketpay}</Typography>
+          </div>
         )}
       </div>
       <div id="block" style={{ display: "colum", margin: 'auto', justifyContent: 'space-between', gap: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
           {data.Accepting ? (
             <IconButton style={{
-              fontSize: '12px', backgroundColor: '#FFA62B', borderRadius: '5px', width: '135px',
+              fontSize: '10px', backgroundColor: '#FFA62B', borderRadius: '5px', width: '135px',
               height: '24px', color: 'white'
-            }}>กรุณารอรับบัตรหากผู้จ้างกดบัตรสำเร็จ</IconButton>
+            }} 
+            // onClick={() => setIsVisible(false)}
+            >กรุณารอรับบัตรหากผู้จ้างกดบัตรสำเร็จ</IconButton>
           ) : (
             <IconButton style={{
               fontSize: '12px', backgroundColor: '#888', borderRadius: '5px', width: '135px',
@@ -85,7 +96,7 @@ function IsAccept({ data }: Props) {
         </div>
       </div>
     </div>
-  )
+  ) : null
   
 }
 
