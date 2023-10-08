@@ -96,35 +96,61 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
       console.log(response.data);
       console.log("จ้างสำเร็จ");
+      alert("จ้างสำเร็จ");
 
     } catch (error) {
       // Handle errors
       console.error('TicketList error:', error);
+      alert("จ้างไม่สำเร็จ");
     }
 
   };
 
   const handleGetTicketforRecieverClick = async (id: number, concertName: string, _reciever_id: number, _buyer_id: number) => {
 
-    const postData = {
-      id: id ,
-      buyer_id: _buyer_id,
-      Concert_name : concertName,
-      reciever_id : _reciever_id
-    };
+    const currentTime = new Date();
+    const allowedStartTime = new Date(currentTime);
+    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (00:00)
+  
+    const allowedEndTime = new Date(currentTime);
+    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (16:00)
 
-    console.log(postData);
+    if (currentTime >= allowedStartTime && currentTime <= allowedEndTime) {
+      const postData = {
+        id: id ,
+        buyer_id: _buyer_id,
+        Concert_name : concertName,
+        reciever_id : _reciever_id
+      };
 
-    // Send the POST request
-    try {
-      const response = await axios.post(hookupUrl + dbURL + 'concerts/employbuy', postData);
+      console.log(postData);
 
-      console.log(response.data);
-      console.log("ซื้อให้ลูกค้าสำเร็จ");
+      // Send the POST request
+      try {
+        const response = await axios.post(hookupUrl + dbURL + 'concerts/employbuy', postData);
+        
+        console.log(response.data);
 
-    } catch (error) {
-      // Handle errors
-      console.error('TicketList error:', error);
+        navigate('/loading');
+        if (response.data === 'sucess') {
+          setTicketStatus(true); // อัปเดตค่า ticketStatus เป็น true
+          console.log("ซื้อให้ลูกค้าสำเร็จ");
+          //alert("ซื้อให้ลูกค้าสำเร็จ");
+        } else {
+          setTicketStatus(false); // อัปเดตค่า ticketStatus เป็น false
+          console.log('กดช้าไป ซื้อให้ลูกค้าไม่สำเร็จ');
+          //alert("เสียใจด้วย กดบัตรไปให้ลูกค้าไม่ทัน");
+        }
+
+      } catch (error) {
+        // Handle errors
+        console.error('TicketList error:', error);
+        alert("error ซื้อให้ลูกค้าไม่สำเร็จ");
+      }
+    }
+    else{
+      console.log('ไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร');
+      alert("ไม่ใช่ช่วงเวลาที่อนุญาตให้กดบัตร");
     }
 
   };
@@ -133,7 +159,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
     const currentTime = new Date();
     const allowedStartTime = new Date(currentTime);
-    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (13:00)
+    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (00:00)
   
     const allowedEndTime = new Date(currentTime);
     allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (16:00)
@@ -154,19 +180,29 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
           console.log(response.data);
 
         navigate('/loading');
-        if (response.status === 201) {
+        if (response.data === 'success') {
           setTicketStatus(true); // อัปเดตค่า ticketStatus เป็น true
           console.log('กดบัตรได้แล้ว ไอเวร');
-        } else {
+          //alert("กดบัตรได้แล้ว");
+        } 
+        else if (response.data === 'Ticket not enough') {
+          setTicketStatus(false); // อัปเดตค่า ticketStatus เป็น true
+          console.log('เงินไม่พอกดบัตร');
+          //alert("เงินไม่พอกดบัตร");
+        } 
+        else {
           setTicketStatus(false); // อัปเดตค่า ticketStatus เป็น false
           console.log('กดช้าไป โง่นัก');
+          //alert("เสียใจด้วย กดบัตรไม่ทัน");
         }
       } catch (error) {
         console.error('เออเร่อนะไอโง่ :', error);
+        alert("error ไม่สามารถกดบัตรได้");
       }
     } else {
       // ถ้าไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร
       console.log('ไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร');
+      alert("ไม่ใช่ช่วงเวลาที่อนุญาตให้กดบัตร");
     }
   };
 
