@@ -60,6 +60,7 @@ h2#concertDate{
     height: 480px;
     flex-shrink: 0;
     border-radius: 10px;
+    object-fit: contain;
 }
 
 #concertLine{
@@ -146,11 +147,11 @@ h2#text1{
 /* Right Content */
 #recipientSelectBox{
     display: flex;
-    padding: 85px 85px 85px 85px;
+    padding: 85px;
     width: 255px;
-    height: 284px;
+    height: auto;
     flex-direction: column;
-    justify-content: center;
+    
     align-items: center;
     border-radius: 10px;
     background: #F9F1EB;
@@ -161,6 +162,7 @@ h2#text1{
     display: flex;
     flex-direction: column;
     align-items: center;
+    
     gap: 30px;
 }
 

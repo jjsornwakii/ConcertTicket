@@ -1,9 +1,13 @@
 import React,{ useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import { EventData } from './ConcertData';
+import { EventData } from './Interface';
+import { dbURL } from '../DB';
 
 const LandingPage: React.FC = () => {
+
+  var role = localStorage.getItem("role");
+
   const Headdiv: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -61,22 +65,16 @@ const LandingPage: React.FC = () => {
     overflow: 'hidden',
   };
 
-<<<<<<< Updated upstream
 
-  ///////////////////////////////////////////////////////////////////////////
   
-  // ขั้นตอนส่ง request 
 
-=======
-  
->>>>>>> Stashed changes
   const [concertData, setData] = useState<EventData[]>([]);
 
   useEffect(() => {
     // สร้างฟังก์ชัน async เพื่อรับข้อมูลจาก API
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/concerts');
+        const response = await fetch(dbURL+"concerts");
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -89,6 +87,7 @@ const LandingPage: React.FC = () => {
     };
 
     fetchData(); // เรียกใช้ฟังก์ชัน fetchData เมื่อคอมโพเนนต์ถูกโหลด
+
   }, []);
   
 
@@ -106,6 +105,19 @@ const LandingPage: React.FC = () => {
       </div>
     </Link>
   ));
+
+  const listPicsHiring = concertData.map((concert) => (
+  
+      <div key={concert.id} style={Listpic}>
+        <img src={concert.PhotoUrl} alt="Girl in a jacket" width="230" height="250"></img>
+        <div style={information}>
+          <Typography color={'black'} fontWeight={'bold'}>{concert.name}</Typography>
+          <Typography color={'black'} fontSize={'15px'}>{concert.Start}</Typography>
+          <Typography color={'black'} fontWeight={'bold'} fontSize={'12px'} marginTop={'5px'}>{concert.price}</Typography>
+        </div>
+      </div>
+
+  ));
   
   return (
     <>
@@ -117,7 +129,8 @@ const LandingPage: React.FC = () => {
 
       <div style={ConcertListdiv}>
         <div style={ListRow}>
-          {listPics}
+        {role === "user" ? listPics : listPicsHiring}
+
         </div>
       </div>
     </>
