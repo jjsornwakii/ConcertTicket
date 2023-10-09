@@ -21,6 +21,7 @@ export const hookupUrl = ""; {/* https://cors-anywhere.herokuapp.com/ */}
 
 export let Username = "";
 export let UserID = "";
+export let giveMeMoneyPls = 0;
 
 const Navbar = () => {
 
@@ -266,7 +267,7 @@ const Navbar = () => {
         const { Ticketpay } = response.data;
         console.log("Balance:", Ticketpay);
         setShowBalance(Ticketpay);
-
+        giveMeMoneyPls = Ticketpay;
         // You can also perform actions such as setting the user's token in state or redirecting the user to another page
       } catch (error) {
         // Handle login errors
@@ -561,10 +562,8 @@ const Navbar = () => {
               ) : (
                 <>
                   {" "}
-                  <IconButton
-                    style={loginButtonStyle}
-                    onClick={handleLoginClickOpen}
-                  >
+                  <IconButton style={loginButtonStyle} onClick={handleLoginClickOpen}>
+
                     <Typography>Login</Typography>
                   </IconButton>
                   <IconButton style={iconStyle}>

@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import IsAccept from './ืnotificationType/IsAccept';
 import GetRequest from './ืnotificationType/GetRequest';
-import { PayingModal } from './PayingModal';
+import PayingModal from './PayingModal';
 import axios from 'axios';
 import { dbURL } from '../../../DB';
 import { UserID, hookupUrl } from '../NavBar';
@@ -129,7 +129,6 @@ const NotiList: React.FC = () => {
         ))
       )}
 
-      {isPaying && <PayingModal iconClose="icon-close.png" />}
     </>
   );
 };
