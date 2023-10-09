@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import "./ModalCSS/PayingModal.css";
 import { dbURL } from '../../../DB';
-import { giveMeMoneyPls, hookupUrl } from '../NavBar';
-import axios from 'axios';
+import { UserID, giveMeMoneyPls, hookupUrl } from '../NavBar';
+import axios, { AxiosResponse } from 'axios';
 import { BalanceModal } from './BalanceModal';
 
 const PayingModal: React.FC<{
@@ -18,7 +18,9 @@ const PayingModal: React.FC<{
   _buyer_id: string; 
   concertName: string; 
   _reciever_id: string; 
-  TicketNumber: number
+  TicketNumber: string;
+
+  money: number;
 
 
 }> = ({
@@ -31,13 +33,16 @@ const PayingModal: React.FC<{
    _reciever_id, 
    TicketNumber,
   handleModalClose,
+  money
 
 }) => {
 
+ 
 
 
 
-  const handleHireButtonClick = async (_buyer_id: string, concertName: string, _reciever_id: string, TicketNumber: number) => {
+
+  const handleHireButtonClick = async (_buyer_id: string, concertName: string, _reciever_id: string, TicketNumber: string) => {
 
     const postData = {
       buyer_id: _buyer_id,
@@ -73,7 +78,7 @@ const PayingModal: React.FC<{
           <div className="div">
             <div className="frame-2">
               <div className="text-wrapper">ยอดเงินในบัญชี SafeTicket</div>
-              <div className="text-wrapper-2">{giveMeMoneyPls}</div>
+              <div className="text-wrapper-2">{money}</div>
             </div>
             <hr className="line" />
             <div className="frame-3">
@@ -90,7 +95,7 @@ const PayingModal: React.FC<{
                 <div className="text-wrapper-7">5,300 ₿</div>
               </div>
             </div>
-            <button className="button" onClick={() =>handleHireButtonClick(_buyer_id,concertName,_reciever_id,TicketNumber)   }>
+            <button className="button" onClick={() => handleHireButtonClick(_buyer_id,concertName,_reciever_id,TicketNumber)   }>
               <div className="text-wrapper-8" >จ่ายเงิน</div>
             </button>
           </div>

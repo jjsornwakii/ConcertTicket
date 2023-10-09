@@ -1,22 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import "../Components/CSS/ConcertInfoPage.css"
-import Navbar, { UserID } from '../Components/Common/NavBar';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom'; // เพิ่มการนำเข้าคำสั่ง useParams
-import { Employ, EventData, UserData } from './Interface';
+import Navbar, { UserID, hookupUrl } from '../Components/Common/NavBar';
+import { Link, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // เพิ่มการนำเข้าคำสั่ง useParams
+import { Employ, EventData, GetHiringByBuyerId, UserData } from './Interface';
 
 import { dbURL } from '../DB';
 import { Username } from '../Components/Common/NavBar';
 import axios, { AxiosResponse } from 'axios';
+import FailTicketComponent from '../Components/LoadingComponent/FailTicketComponent';
+import GetTicketComponent from '../Components/LoadingComponent/GetTicketComponent';
+import { colors } from '@mui/material';
+import PayingModal from '../Components/Common/PopupModal/PayingModal';
 
 
+const modalOverlayStyle: React.CSSProperties = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  display: "flex",
+  justifyContent: "center", // Center horizontally
+  alignItems: "center", // Center vertically
+  zIndex: 999, // Ensure the modal is on top of other content
+};
 
+const modalContentStyle: React.CSSProperties = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "8px",
+  width: "400px",
+  height: "300px",
+  justifyContent: "center",
+  alignItems: "center",
+  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+  zIndex: 1000, // เพิ่ม z-index เพื่อทำให้ BalanceModal อยู่ด้านหน้า
+};
 
+const modalinfo: React.CSSProperties = {
+  height: "247px",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "25px",
+  flexShrink: 0,
+};
+const contentstyle: React.CSSProperties = {
+  alignItems: "center",
+  marginLeft: "40px",
+  justifyContent: "center",
+};
 
-const ConcertInfoPage = () => {
+const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => {
+  const navigate = useNavigate();
 
-  
-  const hookupUrl = "https://cors-anywhere.herokuapp.com/"
   const { concertId } = useParams();
   const location = useLocation();
   const data = location.state as GetHiringByBuyerId;
@@ -41,7 +80,7 @@ const ConcertInfoPage = () => {
 
   const [receiverID, setreceiverID] = useState("");
 
-  const [TicketNumber, setTicketNumber] = useState(0);
+  const [TicketNumber, setTicketNumber] = useState("");
 
 
 
@@ -90,6 +129,39 @@ const ConcertInfoPage = () => {
   }, []);
 
 
+  const [showBalance , setBalance] = useState(0);
+
+  interface BalanceRespons {
+    Ticketpay: number;
+  }
+
+  const BalanceCheck = async () => {
+    console.log("Balance is showed");
+    const requestBody = {
+      id: Number(UserID),
+    };
+
+    try {
+      const response: AxiosResponse<BalanceRespons> =
+        await axios.post<BalanceRespons>(
+          hookupUrl+  dbURL + "Ticketpay/getTicket",
+          requestBody
+        );
+
+  // Handle the successful login response
+  const {Ticketpay } = response.data;
+  console.log('Balance:', Ticketpay);
+  setBalance(Ticketpay);
+  
+  // You can also perform actions such as setting the user's token in state or redirecting the user to another page
+} catch (error) {
+  // Handle login errors
+  console.error('Login error:', error);
+}
+};
+
+
+
   const handleModalClose = () => {
     setPayingModal(false);
   }
@@ -118,20 +190,62 @@ const ConcertInfoPage = () => {
 
     // Send the POST request
     try {
-      const response = await axios.post(
-        hookupUrl+dbURL+'concerts/employ',
-        postData
-      );
-  
-      console.log("จ้างสำเร็จ");
+      const response = await axios.post(hookupUrl + dbURL + 'concerts/employbuy', postData);
+
+      console.log(response.data);
+      console.log("ซื้อให้ลูกค้าสำเร็จ");
 
     } catch (error) {
       // Handle errors
       console.error('TicketList error:', error);
-      alert("จ้างไม่สำเร็จ");
     }
 
   };
+
+  const handleGetTicketsClick = async (_user_id: string, ticket: number, concert_name: string) => {
+
+    const currentTime = new Date();
+    const allowedStartTime = new Date(currentTime);
+    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (13:00)
+
+    const allowedEndTime = new Date(currentTime);
+    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (16:00)
+
+    if (currentTime >= allowedStartTime && currentTime <= allowedEndTime) {
+      const postData = {
+        user_id: _user_id,
+        Ticket: ticket,
+        Concert_name: concert_name
+      };
+
+      try {
+        const response = await axios.post(
+          hookupUrl + dbURL + 'concerts/buys',
+          postData
+        );
+
+        console.log(response.data);
+
+        navigate('/loading');
+        if (response.status === 201) {
+          setTicketStatus(true); // อัปเดตค่า ticketStatus เป็น true
+          console.log('กดบัตรได้แล้ว ไอเวร');
+        } else {
+          setTicketStatus(false); // อัปเดตค่า ticketStatus เป็น false
+          console.log('กดช้าไป โง่นัก');
+        }
+      } catch (error) {
+        console.error('เออเร่อนะไอโง่ :', error);
+      }
+    } else {
+      // ถ้าไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร
+      console.log('ไม่ได้ในช่วงเวลาที่อนุญาตให้กดบัตร');
+    }
+  };
+
+
+
+
 
 
   console.log(Username);
@@ -163,9 +277,15 @@ const ConcertInfoPage = () => {
           </img>
           <div className="container" id="ticketLine">
             <h2 id="concertTicket">{selectedConcert?.Start}</h2>
-            <Link to="/loading">
-              <button type="button" id="btn1">GET TICKETS</button>
-            </Link>
+
+            {role === 'user' ? (
+              <Link to="/loading">
+                <button type="button" id="btn1" onClick={() => handleGetTicketsClick(UserID, 1, conName)}>GET TICKETS</button>
+              </Link>
+            ) : (
+              <Link to="/loading">
+                <button type="button" id="btn1" onClick={() => handleGetTicketforRecieverClick(data.id, data.concert_name, data.reciever_id, data.buyer_id)}>GET TICKETS For Customer</button>
+              </Link>)}
           </div>
           <div className="container" id="lineContainer">
             <h2 id="text1">รายละเอียด</h2>
@@ -200,26 +320,48 @@ const ConcertInfoPage = () => {
 
                       <p>{recipient.name}</p>
 
-                  </div>
-                  <div className="right-content">
-                    <button type="button" onClick={() => {
-                      if (conName) {
-                        handleHireButtonClick(recipient.user_id, conName , UserID , 1);                  
-                      } else {
-                        // Handle the case where conName is undefined
-                        // You can show an error message or perform other actions here
+                    </div>
+                    <div className="right-content">
+                      <button type="button" onClick={() => {
+                        handleHireButtonClick();
+                        BalanceCheck();
+                        setRecepientID(recipient.user_id);
+                        setConcertName(conName);
+                        setreceiverID(UserID);
+                        setTicketNumber("1")
                       }
-                    }
-                    } >จ้าง</button>
-                </div>
-                </div>
+                      } >จ้าง</button>
+                    </div>
+                  </div>
 
                 ))}
 
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (<></>)}
       </div>
-    </div>
+
+
+      {payingModal && (
+        <PayingModal
+          modalOverlayStyle={modalOverlayStyle}
+          modalContentStyle={modalContentStyle}
+          modalinfo={modalinfo}
+          contentstyle={contentstyle}
+
+          _buyer_id = {recepientID} 
+          concertName={concertName}
+           _reciever_id={receiverID}
+           money = {showBalance}
+          
+          TicketNumber= {TicketNumber}
+          handleModalClose={handleModalClose}
+
+        />
+      )}
+
+
     </div >
   )
 };

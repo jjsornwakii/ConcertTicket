@@ -5,7 +5,7 @@ import { EventData, GetHiringByBuyerId } from "../../../../Pages/Interface";
 import { dbURL } from "../../../../DB";
 import axios from "axios";
 import { hookupUrl } from "../../NavBar";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 
 
@@ -63,6 +63,8 @@ function GetRequest({ data }: Props) {
     console.error('TicketList error:', error);
   }
 
+  window.location.reload();
+
  };
 
  const ClickToReject = async (id:number,buyer_id: number,Concert_name:string,reciever_id:number) => {
@@ -88,7 +90,7 @@ function GetRequest({ data }: Props) {
     // Handle errors
     console.error('TicketList error:', error);
   }
-
+  window.location.reload();
  };
 
 

@@ -268,7 +268,7 @@ const Navbar = () => {
     const {Ticketpay } = response.data;
     console.log('Balance:', Ticketpay);
    setShowBalance(Ticketpay);
-    
+    giveMeMoneyPls = Ticketpay;
     // You can also perform actions such as setting the user's token in state or redirecting the user to another page
   } catch (error) {
     // Handle login errors
