@@ -75,6 +75,8 @@ const Navbar = () => {
     // ตั้งค่าสถานะการเข้าสู่ระบบเป็น false สำหรับทั้งผู้ใช้ทั่วไปและ worker
     setIsLoggedInUser(false);
     setIsLoggedInWorker(false);
+
+    window.location.reload();
   };
 
   const handlenotiClick = () => {
@@ -226,6 +228,9 @@ const Navbar = () => {
     } catch (error) {
       console.log(error);
     }
+
+
+    window.location.reload();
   }
 
     const FindUsernameByID = async (u_id: string) => {
