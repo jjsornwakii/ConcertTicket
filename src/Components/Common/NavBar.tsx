@@ -414,18 +414,18 @@ const Navbar = () => {
             </svg>
           </IconButton>
         </Link>
-        <div style={Groupstyle}>
-          
-        {isLoggedInUser ? (
-            /* When logged in, display these icons */
-            <>
-          
+        <div>
+        {isLoggedInUser && (
           <IconButton style={iconStyle} >
-
             <Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
           </IconButton>
-          
-                          
+        )}
+        </div>
+
+        <div style={Groupstyle}>     
+        {isLoggedInUser ? (
+            /* When logged in, display these icons */
+            <>                
           <IconButton style={iconStyle} onClick={handleBalanceModal}>
           
             <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
@@ -466,8 +466,8 @@ const Navbar = () => {
             <>
             <IconButton style={iconStyle} >
 
-<Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
-</IconButton>
+          <Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
+          </IconButton>
           <IconButton style={iconStyle} onClick={handleBalanceModal}>
 
             <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
@@ -511,9 +511,6 @@ const Navbar = () => {
             /* When not logged in, display the "Login" button */
            
           )}
-          
-
-  
           </div>
         </Toolbar>
       </AppBar>
