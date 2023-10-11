@@ -12,7 +12,7 @@ import FailTicketComponent from '../Components/LoadingComponent/FailTicketCompon
 import GetTicketComponent from '../Components/LoadingComponent/GetTicketComponent';
 import { colors } from '@mui/material';
 import PayingModal from '../Components/Common/PopupModal/PayingModal';
-
+import Notification from '../Components/Common/PopupModal/Notification';
 
 const modalOverlayStyle: React.CSSProperties = {
   position: "fixed",
@@ -24,7 +24,7 @@ const modalOverlayStyle: React.CSSProperties = {
   display: "flex",
   justifyContent: "center", // Center horizontally
   alignItems: "center", // Center vertically
-  zIndex: 999, // Ensure the modal is on top of other content
+  //zIndex: 999, // Ensure the modal is on top of other content
 };
 
 const modalContentStyle: React.CSSProperties = {
@@ -36,7 +36,7 @@ const modalContentStyle: React.CSSProperties = {
   justifyContent: "center",
   alignItems: "center",
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-  zIndex: 1000, // เพิ่ม z-index เพื่อทำให้ BalanceModal อยู่ด้านหน้า
+  //zIndex: 1000, // เพิ่ม z-index เพื่อทำให้ BalanceModal อยู่ด้านหน้า
 };
 
 const modalinfo: React.CSSProperties = {
@@ -62,8 +62,16 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
   const role = localStorage.getItem("role");
 
-
   console.log(data);
+  
+  const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
+  const handleButtonClick = () => {
+    setNotificationOpen(true);
+  };
+
+  const closeNotification = () => {
+    setNotificationOpen(false);
+  };
 
 
   console.log(concertId);
@@ -331,6 +339,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
                         setTicketNumber("1")
                       }
                       } >จ้าง</button>
+                      <Notification isOpen={notificationOpen} onClose={closeNotification} />
                     </div>
                   </div>
 
