@@ -19,7 +19,7 @@ const PayingModal: React.FC<{
   concertName: string; 
   _reciever_id: string; 
   TicketNumber: string;
-
+  conPrice:number;
   money: number;
 
 
@@ -31,6 +31,7 @@ const PayingModal: React.FC<{
   _buyer_id,
    concertName, 
    _reciever_id, 
+   conPrice,
    TicketNumber,
   handleModalClose,
   money
@@ -90,7 +91,7 @@ const PayingModal: React.FC<{
               </div>
               <div className="subframe-5">
                 <div className="text-wrapper-5">Price</div>
-                <div className="text-wrapper-6">5,000 ₿</div>
+                <div className="text-wrapper-6">{conPrice} ₿</div>
                 <div className="text-wrapper-6">300 ₿</div>
                 <div className="text-wrapper-7">5,300 ₿</div>
               </div>

@@ -54,6 +54,7 @@ const contentstyle: React.CSSProperties = {
 };
 
 const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => {
+
   const navigate = useNavigate();
 
   const { concertId } = useParams();
@@ -67,6 +68,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
 
   console.log(concertId);
+
   const [concertData, setData] = useState<EventData[]>([]);
 
   const [recipients, setRecipients] = useState<UserData[]>([]);
@@ -93,7 +95,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
     // สร้างฟังก์ชัน async เพื่อรับข้อมูล concert ทั้งหมด
     const fetchConcert = async () => {
       try {
-        const response = await fetch(hookupUrl + dbURL + 'concerts');         // <--------------------------- เปลี่ยนใส่ API ของคิดดดดดดดดดดดดดดดดดดดดดดดดด
+        const response = await fetch(hookupUrl + dbURL + 'concerts');       
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -111,7 +113,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(hookupUrl + dbURL + 'users');         // <--------------------------- เปลี่ยนใส่ API ของคิดดดดดดดดดดดดดดดดดดดดดดดดด
+        const response = await fetch(hookupUrl + dbURL + 'users');         
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -251,6 +253,8 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
   console.log(Username);
   const selectedConcert = concertData.find(concert => concert.id === concertId);
 
+
+  const conPrice = selectedConcert?.price as number;
   const conName = selectedConcert?.name as string;
   console.log(conName);
 
@@ -272,11 +276,14 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
           <div className="container" id="concertHeader">
             <h2 id="concertName">{selectedConcert?.name}</h2>
             <h2 id="concertDate">{selectedConcert?.Start} - {selectedConcert?.End}</h2>
+
           </div>
           <img id="concertPic" src={selectedConcert?.PhotoUrl} alt="">
           </img>
           <div className="container" id="ticketLine">
             <h2 id="concertTicket">{selectedConcert?.Start}</h2>
+
+            <h2 id="concertTicket">{selectedConcert?.price} THB</h2> {/* Display ticket price here */}
 
             {role === 'user' ? (
               <Link to="/loading">
@@ -354,6 +361,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
           concertName={concertName}
            _reciever_id={receiverID}
            money = {showBalance}
+           conPrice = {conPrice}
           
           TicketNumber= {TicketNumber}
           handleModalClose={handleModalClose}
