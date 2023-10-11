@@ -18,7 +18,7 @@ const PayingModal: React.FC<{
   concertName: string; 
   _reciever_id: string; 
   TicketNumber: string;
-
+  conPrice:number;
   money: number;
 
 
@@ -30,6 +30,7 @@ const PayingModal: React.FC<{
   _buyer_id,
    concertName, 
    _reciever_id, 
+   conPrice,
    TicketNumber,
   handleModalClose,
   money
