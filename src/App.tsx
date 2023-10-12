@@ -5,7 +5,8 @@ import LoadingPage from './Pages/LoadingPage';
 import LandingPage from './Pages/LandingPage';
 import Navbar from './Components/Common/NavBar'
 import LoadingPageHireling from './Pages/LoadingPageHireling';
-
+import GetTicketComponent from './Components/LoadingComponent/GetTicketComponent';
+import FailTicketComponent from './Components/LoadingComponent/FailTicketComponent';
 
 
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
 
 
   const [ticketStatus, setTicketStatus] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <Router>
       <Navbar/>
