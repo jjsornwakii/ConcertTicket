@@ -61,7 +61,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
   const role = localStorage.getItem("role");
 
   console.log(data);
-  
+
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
   const handleButtonClick = () => {
     setNotificationOpen(true);
@@ -87,7 +87,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
     // สร้างฟังก์ชัน async เพื่อรับข้อมูล concert ทั้งหมด
     const fetchConcert = async () => {
       try {
-        const response = await fetch(hookupUrl + dbURL + 'concerts');       
+        const response = await fetch(hookupUrl + dbURL + 'concerts');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -105,7 +105,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(hookupUrl + dbURL + 'users');         
+        const response = await fetch(hookupUrl + dbURL + 'users');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -123,7 +123,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
   }, []);
 
 
-  const [showBalance , setBalance] = useState(0);
+  const [showBalance, setBalance] = useState(0);
 
   interface BalanceRespons {
     Ticketpay: number;
@@ -138,21 +138,21 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
     try {
       const response: AxiosResponse<BalanceRespons> =
         await axios.post<BalanceRespons>(
-          hookupUrl+  dbURL + "Ticketpay/getTicket",
+          hookupUrl + dbURL + "Ticketpay/getTicket",
           requestBody
         );
 
-  // Handle the successful login response
-  const {Ticketpay } = response.data;
-  console.log('Balance:', Ticketpay);
-  setBalance(Ticketpay);
-  
-  // You can also perform actions such as setting the user's token in state or redirecting the user to another page
-} catch (error) {
-  // Handle login errors
-  console.error('Login error:', error);
-}
-};
+      // Handle the successful login response
+      const { Ticketpay } = response.data;
+      console.log('Balance:', Ticketpay);
+      setBalance(Ticketpay);
+
+      // You can also perform actions such as setting the user's token in state or redirecting the user to another page
+    } catch (error) {
+      // Handle login errors
+      console.error('Login error:', error);
+    }
+  };
 
 
 
@@ -273,11 +273,11 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
             {role === 'user' ? (
               <Link to="/loading">
-                <button type="button" id="btn1" onClick={() => handleGetTicketsClick(UserID, 1, conName)}>GET TICKETS</button>
+                <button type="button" style={{ cursor: 'pointer',}} id="btn1" onClick={() => handleGetTicketsClick(UserID, 1, conName)}>GET TICKETS</button>
               </Link>
             ) : (
               <Link to="/loading">
-                <button type="button" id="btn1" onClick={() => handleGetTicketforRecieverClick(data.id, data.concert_name, data.reciever_id, data.buyer_id)}>GET TICKETS For Customer</button>
+                <button type="button" style={{cursor: 'pointer',}} id="btn1" onClick={() => handleGetTicketforRecieverClick(data.id, data.concert_name, data.reciever_id, data.buyer_id)}>GET TICKETS For Customer</button>
               </Link>)}
           </div>
           <div className="container" id="lineContainer">
@@ -315,23 +315,23 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
                     </div>
                     <div className="right-content">
-                    <div className="right-content">
-                    <button
-                      type="button"
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        handleHireButtonClick();
-                        BalanceCheck();
-                        setRecepientID(recipient.user_id);
-                        setConcertName(conName);
-                        setreceiverID(UserID);
-                        setTicketNumber("1");
-                      }}>
-                      จ้าง
-                    </button>
-                  </div>
+                      <div className="right-content">
+                        <button
+                          type="button"
+                          style={{
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => {
+                            handleHireButtonClick();
+                            BalanceCheck();
+                            setRecepientID(recipient.user_id);
+                            setConcertName(conName);
+                            setreceiverID(UserID);
+                            setTicketNumber("1");
+                          }}>
+                          จ้าง
+                        </button>
+                      </div>
                       <Notification isOpen={notificationOpen} onClose={closeNotification} />
                     </div>
                   </div>
@@ -352,13 +352,13 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
           modalinfo={modalinfo}
           contentstyle={contentstyle}
 
-          _buyer_id = {recepientID} 
+          _buyer_id={recepientID}
           concertName={concertName}
-           _reciever_id={receiverID}
-           money = {showBalance}
-           conPrice = {conPrice}
-          
-          TicketNumber= {TicketNumber}
+          _reciever_id={receiverID}
+          money={showBalance}
+          conPrice={conPrice}
+
+          TicketNumber={TicketNumber}
           handleModalClose={handleModalClose}
 
         />

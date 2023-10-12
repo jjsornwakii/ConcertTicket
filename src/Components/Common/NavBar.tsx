@@ -442,11 +442,11 @@ const Navbar = () => {
           </IconButton>
         </Link>
         <div>
-        {isLoggedInUser && (
+        
           <IconButton style={iconStyle} >
             <Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
           </IconButton>
-        )}
+        
         </div>
 
         <div style={Groupstyle}>     
@@ -491,12 +491,14 @@ const Navbar = () => {
          </IconButton>
             </>
           ) :  isLoggedInWorker ? (
+
+
+
+
+            
             /* When logged in, display these icons */
             <>
-            <IconButton style={iconStyle} >
-
-          <Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
-          </IconButton>
+            
           <IconButton style={iconStyle} onClick={handleBalanceModal}>
 
             <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
