@@ -84,12 +84,6 @@ const NotiList: React.FC = () => {
 
   }
 
-
-
-
-
-
-
   //   {/*Action accept*/}
   const [isPaying, setisPaying] = useState(false);
   const handlePaying = () => {
