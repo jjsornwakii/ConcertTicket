@@ -90,23 +90,6 @@ const NotiList: React.FC = () => {
     setisPaying(!isPaying);
   }
 
-  const containerStyle: React.CSSProperties = {
-    display: 'flex',
-    width: '348px',
-    height: 'auto',
-    padding: '15px 0px',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flexShrink: 0,
-    borderRadius: '10px',
-    background: '#EDE7E3',
-    margin: 'auto',
-    marginTop: '25px',
-    marginBottom: '10px',
-
-  };
-
-
   const filteredList = myList.filter((item) => item.Complete === false);
 
   return (
