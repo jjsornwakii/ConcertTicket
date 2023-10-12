@@ -96,7 +96,7 @@ const TicketBagModal: React.FC<{
         display: "flex",
         height: "117px",
         padding: "7px 16px",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         gap: "13px",
         alignSelf: "stretch",
