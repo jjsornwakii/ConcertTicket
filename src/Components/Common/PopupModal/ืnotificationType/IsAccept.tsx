@@ -6,8 +6,6 @@ import { hookupUrl } from '../../NavBar';
 import { dbURL } from '../../../../DB';
 import axios from 'axios';
 
-import './notificationType.css';
-
 interface Props {
 
   data: GetHiringByReceiverId;
@@ -15,8 +13,24 @@ interface Props {
 
 function IsAccept({ data }: Props) {
 
-  const ClickToReject = async (id:number,buyer_id: number,Concert_name:string,reciever_id:number) => {
+  const containerStyle: React.CSSProperties = {
+    display: "flex",
+    width: "348px",
+    height: "148px",
+    padding: "15px 0px",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    flexShrink: 0,
+    borderRadius: "10px",
+    background: "#EDE7E3",
+    margin: "auto",
+    marginTop: "25px",
+    marginBottom: "10px",
+  };
 
+
+  const ClickToReject = async (id:number,buyer_id: number,Concert_name:string,reciever_id:number) => {
+  
     const postData = {
       id : id , 
       buyer_id : buyer_id,
@@ -44,33 +58,31 @@ function IsAccept({ data }: Props) {
 
 
   return (
-    <div id="BuyerAccept">
-      <div id="block-text">
-      <Typography id="Typography" className='h1'>
-        Notification
-      </Typography>
+    <div className="BuyerAccept" style={containerStyle}>
+      <div style={{ marginRight: 'auto', marginLeft: '20px', marginTop: 'auto' }}>
         {!data.Accepting ? (
-          <Typography id="Typography">
-            คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ
-          </Typography>
+          <Typography fontSize={'16px'}>คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ</Typography>
         ) : (
-          <Typography id="Typography">
-            {data.buyer_username} ได้ตอบรับคำสั่งซื้อ {data.concert_name} จำนวน {data.TicketNum} แล้ว 
-            กรุณารอผู้รับจ้างกดบัตร {data.Ticketpay}
-          </Typography>
+          <Typography  fontSize={'16px'}>{data.buyer_username} ได้ตอบรับคำสั่งซื้อ {data.concert_name} จำนวน {data.TicketNum} แล้ว  กรุณารอผู้รับจ้างกดบัตร {data.Ticketpay}</Typography>
         )}
       </div>
-      <div id="block-btn">
+      <div id="block" style={{ display: "colum", margin: 'auto', justifyContent: 'space-between', gap: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
           {data.Accepting ? (
-            <IconButton id="btn">
-              กรุณารอรับบัตรหากผู้จ้างกดบัตรสำเร็จ
-            </IconButton>
+            <IconButton style={{
+              fontSize: '12px', backgroundColor: '#FFA62B', borderRadius: '5px', width: '135px',
+              height: '24px', color: 'white'
+            }}>กรุณารอรับบัตรหากผู้จ้างกดบัตรสำเร็จ</IconButton>
           ) : (
-            <IconButton id="btn" className="reject"
-              onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}>
-              ปฏิเสธ
-            </IconButton>
+            <IconButton style={{
+              fontSize: '12px', backgroundColor: '#888', borderRadius: '5px', width: '135px',
+              height: '24px', color: 'white'
+            }}
+            onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)
+          
+          }>ปฏิเสธ</IconButton>
           )}
+        </div>
       </div>
     </div>
   )
