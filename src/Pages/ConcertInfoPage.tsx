@@ -256,12 +256,6 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
 
   return (
-
-
-
-
-
-
     <div className="container" id="content">
       <div className="container" id="info">
         <div className="column" id="concertInfo">
@@ -321,15 +315,23 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
                     </div>
                     <div className="right-content">
-                      <button type="button" onClick={() => {
+                    <div className="right-content">
+                    <button
+                      type="button"
+                      style={{
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
                         handleHireButtonClick();
                         BalanceCheck();
                         setRecepientID(recipient.user_id);
                         setConcertName(conName);
                         setreceiverID(UserID);
-                        setTicketNumber("1")
-                      }
-                      } >จ้าง</button>
+                        setTicketNumber("1");
+                      }}>
+                      จ้าง
+                    </button>
+                  </div>
                       <Notification isOpen={notificationOpen} onClose={closeNotification} />
                     </div>
                   </div>

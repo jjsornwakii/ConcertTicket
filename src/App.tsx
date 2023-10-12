@@ -21,6 +21,7 @@ const theme = createTheme({
 const App: React.FC = () => {
 
   const [ticketStatus, setTicketStatus] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <ThemeProvider theme={theme}>
     <Router>
