@@ -17,9 +17,10 @@ const TicketBagModal: React.FC<{
     index: number; // Prop for the index
     ticketList: TicketItem[];
 
-}> = ({ handleModalClose, index, ticketList }) => {
+  }> = ({ handleModalClose, index, ticketList }) => {
 
     const [listInBag, getListInbag] = useState<InBag[]>([]);
+
 
     const modalOverlayStyle: React.CSSProperties = {
         position: 'fixed',
@@ -145,7 +146,7 @@ const TicketBagModal: React.FC<{
       ));
       
 
-    return (
+      return (
         <> <div style={modalOverlayStyle}>
             <div style={modalContentStyle}>
                 <div style={modalinfo}>
