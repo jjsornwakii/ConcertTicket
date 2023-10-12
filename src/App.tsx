@@ -5,17 +5,25 @@ import LoadingPage from './Pages/LoadingPage';
 import LandingPage from './Pages/LandingPage';
 import Navbar from './Components/Common/NavBar'
 import LoadingPageHireling from './Pages/LoadingPageHireling';
-import GetTicketComponent from './Components/LoadingComponent/GetTicketComponent';
-import FailTicketComponent from './Components/LoadingComponent/FailTicketComponent';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Noto Sans Thai',
+      'Inter', // Add the Inter font family at the start
+      '-apple-system',
+    ].join(','),
+  },
+});
 
 
 const App: React.FC = () => {
 
-
-
   const [ticketStatus, setTicketStatus] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Navbar/>
       <Routes>
@@ -30,6 +38,7 @@ const App: React.FC = () => {
         <Route path="/loadingHirling" element={<LoadingPageHireling />} />
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 };
 

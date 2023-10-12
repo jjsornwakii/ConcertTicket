@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import "../Components/CSS/ConcertInfoPage.css"
-import Navbar, { UserID, hookupUrl } from '../Components/Common/NavBar';
+import "../Components/CSS/ConcertInfoPage.css";
+import { UserID, hookupUrl } from '../Components/Common/NavBar';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, useNavigate } from 'react-router-dom'; // เพิ่มการนำเข้าคำสั่ง useParams
 import { Employ, EventData, GetHiringByBuyerId, UserData } from './Interface';
@@ -8,9 +8,6 @@ import { Employ, EventData, GetHiringByBuyerId, UserData } from './Interface';
 import { dbURL } from '../DB';
 import { Username } from '../Components/Common/NavBar';
 import axios, { AxiosResponse } from 'axios';
-import FailTicketComponent from '../Components/LoadingComponent/FailTicketComponent';
-import GetTicketComponent from '../Components/LoadingComponent/GetTicketComponent';
-import { colors } from '@mui/material';
 import PayingModal from '../Components/Common/PopupModal/PayingModal';
 import Notification from '../Components/Common/PopupModal/Notification';
 
@@ -73,31 +70,18 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
   const closeNotification = () => {
     setNotificationOpen(false);
   };
-
-
   console.log(concertId);
 
   const [concertData, setData] = useState<EventData[]>([]);
-
   const [recipients, setRecipients] = useState<UserData[]>([]);
-
   const [payingModal, setPayingModal] = useState(false);
-
-
   const [recepientID, setRecepientID] = useState("");
-
   const [concertName, setConcertName] = useState("");
-
   const [receiverID, setreceiverID] = useState("");
-
   const [TicketNumber, setTicketNumber] = useState("");
-
-
-
 
   // สร้าง state สำหรับเก็บข้อมูลที่คุณต้องการส่งผ่าน POST request
   //const [postData, setPostData] = useState<Employ>();
-
 
   useEffect(() => {
     // สร้างฟังก์ชัน async เพื่อรับข้อมูล concert ทั้งหมด
