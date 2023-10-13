@@ -200,10 +200,10 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
     const currentTime = new Date();
     const allowedStartTime = new Date(currentTime);
-    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (13:00)
+    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (0:00)
 
     const allowedEndTime = new Date(currentTime);
-    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (16:00)
+    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (23:00)
 
     if (currentTime >= allowedStartTime && currentTime <= allowedEndTime) {
       const postData = {
