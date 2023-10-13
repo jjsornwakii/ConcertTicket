@@ -7,16 +7,23 @@ import { PayoutModal } from "./PayoutModal";
 interface Props {
   iconClose: string;
   handleModalClose: () => void;
-  // user_id: string;
   Balance: number;
   BalanceCheck: () => Promise<void>;
 }
+export const BalanceModal = ({ iconClose, handleModalClose, Balance, BalanceCheck }: Props): JSX.Element => {
+  const [isTopupModalOpen, setIsTopupModalOpen] = useState(false);
 
-export const BalanceModal = ({ iconClose, handleModalClose, Balance,  BalanceCheck,}: Props): JSX.Element => {
+  const toggleTopupModal = () => {
+    setIsTopupModalOpen(!isTopupModalOpen);
+  };
+  
   console.log("BalanceModal show");
   const [isTopupModalclick, setisTopupModalclick] = useState(false);
   const [isPayoutModalclick, setPayoutModalclick] = useState(false);
-  
+
+  const handlePayoutClose = () => {
+    setPayoutModalclick(false);
+  };
   
   const handleTopup = () => {
     setisTopupModalclick(!isTopupModalclick);
@@ -47,7 +54,7 @@ export const BalanceModal = ({ iconClose, handleModalClose, Balance,  BalanceChe
                 </div>
               </div>
               <div className="frame-3">
-                <button className="button" onClick={handleTopup}>
+                <button className="button" onClick={toggleTopupModal}>
                   <div className="text-wrapper-3">เติมเงิน</div>
                 </button>
                 <button className="div-wrapper" onClick={handlePayout}>
@@ -58,23 +65,22 @@ export const BalanceModal = ({ iconClose, handleModalClose, Balance,  BalanceChe
           </div>
         </div>
       </div>
-      {isTopupModalclick && (
+      {isTopupModalOpen && (
         <TopupModal
           iconClose="Pics/icon_close.png"
           iconKeyboardArrow="icon-keyboard-arrow-down.png"
-          Balance = {Balance}
-          // userId = {user_id}
-          BalanceCheck ={BalanceCheck}
-         
+          Balance={Balance}
+          BalanceCheck={BalanceCheck}
+          onClose={toggleTopupModal}
         />
       )}
       {isPayoutModalclick && (
         <PayoutModal
           iconClose="Pics/icon_close.png"
           iconKeyboardArrow="icon-keyboard-arrow-down.png"
-          Balance = {Balance}
-          // userId = {user_id}
-          BalanceCheck ={BalanceCheck}
+          Balance={Balance}
+          BalanceCheck={BalanceCheck}
+          onClose={handlePayoutClose}
         />
       )}
     </>
@@ -82,6 +88,6 @@ export const BalanceModal = ({ iconClose, handleModalClose, Balance,  BalanceChe
 };
 
 BalanceModal.propTypes = {
-  iconClose: PropTypes.string.isRequired, // ระบุว่า iconClose เป็นข้อมูลที่จำเป็น
-  handleModalClose: PropTypes.func.isRequired, // ระบุว่า handleModalClose เป็นฟังก์ชันที่จำเป็น
+  iconClose: PropTypes.string.isRequired,
+  handleModalClose: PropTypes.func.isRequired,
 };
