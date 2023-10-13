@@ -9,7 +9,6 @@ import axios from 'axios';
 import './notificationType.css';
 
 interface Props {
-
   data: GetHiringByReceiverId;
 }
 
@@ -44,35 +43,35 @@ function IsAccept({ data }: Props) {
 
 
   return (
-    <div id="BuyerAccept">
-      <div id="block-text">
+  <div id="block-noti">
+    <div id="block-text">
       <Typography id="Typography" className='h1'>
         Notification
       </Typography>
-        {!data.Accepting ? (
-          <Typography id="Typography">
-            คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ
-          </Typography>
-        ) : (
-          <Typography id="Typography">
-            {data.buyer_username} ได้ตอบรับคำสั่งซื้อ {data.concert_name} จำนวน {data.TicketNum} แล้ว 
-            กรุณารอผู้รับจ้างกดบัตร {data.Ticketpay}
-          </Typography>
-        )}
-      </div>
-      <div id="block-btn">
-          {data.Accepting ? (
-            <IconButton id="btn">
-              กรุณารอรับบัตรหากผู้จ้างกดบัตรสำเร็จ
-            </IconButton>
-          ) : (
-            <IconButton id="btn" className="reject"
-              onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}>
-              ปฏิเสธ
-            </IconButton>
-          )}
-      </div>
+      {!data.Accepting ? (
+        <Typography id="Typography">
+          คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ
+        </Typography>
+      ) : (
+        <Typography id="Typography">
+          {data.buyer_username} ได้ตอบรับคำสั่งซื้อ {data.concert_name} จำนวน {data.TicketNum} แล้ว 
+          กรุณารอผู้รับจ้างกดบัตร {data.Ticketpay}
+        </Typography>
+      )}
     </div>
+    <div id="block-btn">
+      {data.Accepting ? (
+        <IconButton id="btn">
+          กรุณารอรับบัตรหากผู้จ้างกดบัตรสำเร็จ
+        </IconButton>
+      ) : (
+        <IconButton id="btn" className="reject"
+          onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}>
+          ปฏิเสธ
+        </IconButton>
+      )}
+    </div>
+  </div>
   )
   
 }

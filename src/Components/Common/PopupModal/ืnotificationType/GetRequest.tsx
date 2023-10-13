@@ -7,6 +7,7 @@ import axios from "axios";
 import { hookupUrl } from "../../NavBar";
 import { Link} from "react-router-dom";
 
+import './notificationType.css';
 
 
 interface Props {
@@ -16,27 +17,6 @@ interface Props {
 }
 
 function GetRequest({ data }: Props) {
-
-  
-
-
-
-  const containerStyle: React.CSSProperties = {
-    display: "flex",
-    width: "348px",
-    height: "auto",
-    padding: "15px",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    flexShrink: 0,
-    borderRadius: "10px",
-    background: "#EDE7E3",
-    margin: "auto",
-    marginTop: "25px",
-    marginBottom: "10px",
-  };
-
-
 
 
  const ClickToAccept = async (id:number,buyer_id: number,Concert_name:string,reciever_id:number) => {
@@ -93,97 +73,64 @@ function GetRequest({ data }: Props) {
   window.location.reload();
  };
 
-
-
-  const [concertData, setData] = useState<EventData[]>([]);
-
   useEffect(() => {
-      
 
   }, []);
-
-
 
   return (
 
     <div>
-      <div className="RequestBuyer" style={{
-        ...containerStyle,
-        background: data.Accepting ? '#00CC99' : '#EDE7E3',
-      }}>
-
-        <div style={{ margin: "auto" }}>
-          <Typography fontWeight={"bold"} fontSize={"24px"}>
+      <div id="block-noti">
+        <div id="block-text">
+          <Typography id="Typography" className="h1">
             Notification order #{data.id}
           </Typography>
-          <Typography>
+          <Typography id="Typography" >
             Concert's Name : {data.concert_name}
           </Typography>
-          <Typography>
+          <Typography id="Typography" >
             Customer's Name : {data.reciever_username}
           </Typography>
-          <Typography>
+          <Typography id="Typography" >
             Ticket Number : {data.TicketNum}
           </Typography>
-          <Typography>
+          <Typography id="Typography" >
             Total tickpay : {data.Ticketpay}
           </Typography>
-          <Typography>
+          <Typography id="Typography" >
             Concert ID : {data.concert_id}
           </Typography>
         </div>
 
-
-
-        {data.Accepting ? (
-            // Render this content if data.Accepting is true
-          
-            <Link to={`http://localhost:3000/concert-info/${data.concert_id}`} state={data}>
-            <IconButton
-                style={{
-                  fontSize: '12px',
-                  backgroundColor: '#FFA62B',
-                  borderRadius: '5px',
-                  width: '135px',
-                  height: '24px',
-                  color: 'white',
-                }}
-              >
-                กดบัตร
-              </IconButton>
-              </Link>
-          ) : (
-            // Render this content if data.Accepting is not true
-            <>
+        <div id="block-btn" className="two-btn">
+          {data.Accepting ? (
+              <Link to={`http://localhost:3000/concert-info/${data.concert_id}`} state={data}>
               <IconButton
-                style={{
-                  fontSize: '12px',
-                  backgroundColor: '#FFA62B',
-                  borderRadius: '5px',
-                  width: '135px',
-                  height: '24px',
-                  color: 'white',
-                }}
-                onClick={() => ClickToAccept(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
-              
-              >
-                รับงาน
-              </IconButton>
-              <IconButton
-                style={{
-                  fontSize: '12px',
-                  backgroundColor: '#888',
-                  borderRadius: '5px',
-                  width: '135px',
-                  height: '24px',
-                  color: 'white',
-                }}
-                onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
-              >
-                ปฏิเสธ
-              </IconButton>
-            </>
-          )}
+              id="btn"
+                >
+                  กดบัตร
+                </IconButton>
+                </Link>
+            ) : (
+              // Render this content if data.Accepting is not true
+              <>
+                <IconButton
+                id="btn"
+                  onClick={() => ClickToAccept(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
+                
+                >
+                  รับงาน
+                </IconButton>
+                <IconButton
+                id="btn"
+                className="reject"
+                  onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
+                >
+                  ปฏิเสธ
+                </IconButton>
+              </>
+            )}
+        </div>
       </div>
     </div>
   );

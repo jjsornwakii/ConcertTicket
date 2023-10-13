@@ -18,44 +18,19 @@ function IsDecline() {
     marginBottom: "10px",
   };
   return (
-    <div className="decline" style={containerStyle}>
-      <div
-        style={{ marginRight: "auto", marginLeft: "20px", marginTop: "auto" }}
-      >
-        <Typography fontWeight={"bold"} fontSize={"24px"}>
+    <div id="block-noti">
+      <div id="block-text">
+        <Typography id="Typography" className="h1">
           Notification
         </Typography>
-        <Typography>ได้ปฏิเสธคำร้องขอแล้ว</Typography>
+        <Typography id="Typography" >
+          ได้ปฏิเสธคำร้องขอแล้ว
+          </Typography>
       </div>
-      <div
-        id="block"
-        style={{
-          display: "colum",
-          margin: "auto",
-          justifyContent: "space-between",
-          gap: "20px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "20px",
-          }}
-        >
-          <IconButton
-            style={{
-              fontSize: "12px",
-              backgroundColor: "#888",
-              borderRadius: "5px",
-              width: "135px",
-              height: "24px",
-              color: "white",
-            }}
-          >
+      <div id="block-btn">
+          <IconButton id="btn">
             รับทราบ
           </IconButton>
-        </div>
       </div>
     </div>
   );

@@ -471,7 +471,7 @@ const Navbar = () => {
 
           </IconButton>
 
-          <IconButton style={iconStyle} onMouseEnter={handlenotiClick} onMouseLeave={handleNonotiClick} >
+          <IconButton style={iconStyle} onClick={handlenotiClick} onMouseLeave={handleNonotiClick} >
           <StyledBadge badgeContent={notiNumber} color="secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
               <rect width="57" height="32" rx="16" fill="#EEEEEE"/>
@@ -509,7 +509,7 @@ const Navbar = () => {
 
           </IconButton>
          
-          <IconButton style={iconStyle} onMouseEnter={handlenotiClick} onMouseLeave={handleNonotiClick} >
+          <IconButton style={iconStyle} onClick={handlenotiClick} onMouseLeave={handleNonotiClick} >
           <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
             <rect width="57" height="32" rx="16" fill="#EEEEEE"/>
             <path d="M29.0003 27.6666C30.2837 27.6666 31.3337 26.6166 31.3337 25.3333H26.667C26.667 26.6166 27.717 27.6666 29.0003 27.6666ZM36.0003 20.6666V14.8333C36.0003 11.2516 34.0987 8.25329 30.7503 7.45996V6.66663C30.7503 5.69829 29.9687 4.91663 29.0003 4.91663C28.032 4.91663 27.2503 5.69829 27.2503 6.66663V7.45996C23.9137 8.25329 22.0003 11.24 22.0003 14.8333V20.6666L19.667 23V24.1666H38.3337V23L36.0003 20.6666ZM33.667 21.8333H24.3337V14.8333C24.3337 11.94 26.0953 9.58329 29.0003 9.58329C31.9053 9.58329 33.667 11.94 33.667 14.8333V21.8333Z" fill="black"/>
