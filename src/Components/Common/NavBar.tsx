@@ -15,6 +15,11 @@ import { Link } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { UserData } from "../../Pages/Interface";
 
+import Badge, { BadgeProps } from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+
+import { GetHiringByBuyerId, GetHiringByReceiverId } from "../../Pages/Interface";
+
 export const hookupUrl = ""; {/* https://cors-anywhere.herokuapp.com/ */}
 
 // import { useCookies } from "react-cookie";
@@ -28,6 +33,7 @@ const Navbar = () => {
 
   // เพิ่ม state สำหรับตรวจสอบสถานะการเข้าสู่ระบบ
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
 
   const [isLoggedInUser, setIsLoggedInUser] = useState(false);
   const [isLoggedInWorker, setIsLoggedInWorker] = useState(false);
@@ -89,6 +95,8 @@ const Navbar = () => {
     setisBalanceModalVisible(true);
     BalanceCheck();
   };
+
+  const [notiNumber, setNotiNumber] = useState(0);
 
   const checkLoggedIn = () => {
     const token = localStorage.getItem("token"); // ดึง token จาก localStorage
@@ -233,6 +241,7 @@ const Navbar = () => {
     window.location.reload();
   }
 
+
     const FindUsernameByID = async (u_id: string) => {
       console.log("Find User Name by ID");
 
@@ -250,6 +259,8 @@ const Navbar = () => {
         Username = user_data?.name as string;
 
         // You can also perform actions such as setting the user's token in state or redirecting the user to another page
+        // set noti badge here
+
       } catch (error) {
         // Handle login errors
         console.error(error);
@@ -317,6 +328,16 @@ const Navbar = () => {
         console.error("TicketList error:", error);
       }
     };
+
+    const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+      '& .MuiBadge-badge': {
+        right: 10,
+        top: 10,
+        border: `2px solid ${theme.palette.background.paper}`,
+        background:'#FFA62B',
+        padding: '0 0 0 0',
+      },
+    }));
 
     const appBarStyle: React.CSSProperties = {
       backgroundColor: "white",
@@ -394,10 +415,16 @@ const Navbar = () => {
       background: "#FFF",
       right: "0", // Position the dropdown at the right side
       top: "40px",
+
       zIndex: 999,
       position: "absolute",
-
       overflowY: "auto",
+      
+      display: 'flex',
+      padding: '1.5625rem 2rem',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '1.5625rem'
     };
 
 
@@ -415,11 +442,11 @@ const Navbar = () => {
           </IconButton>
         </Link>
         <div>
-        {isLoggedInUser && (
+        
           <IconButton style={iconStyle} >
             <Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
           </IconButton>
-        )}
+        
         </div>
 
         <div style={Groupstyle}>     
@@ -443,15 +470,17 @@ const Navbar = () => {
           </svg>
 
           </IconButton>
-          <IconButton style={iconStyle} onMouseEnter={handlenotiClick} onMouseLeave={handleNonotiClick} >
 
-          <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
-            <rect width="57" height="32" rx="16" fill="#EEEEEE"/>
-            <path d="M29.0003 27.6666C30.2837 27.6666 31.3337 26.6166 31.3337 25.3333H26.667C26.667 26.6166 27.717 27.6666 29.0003 27.6666ZM36.0003 20.6666V14.8333C36.0003 11.2516 34.0987 8.25329 30.7503 7.45996V6.66663C30.7503 5.69829 29.9687 4.91663 29.0003 4.91663C28.032 4.91663 27.2503 5.69829 27.2503 6.66663V7.45996C23.9137 8.25329 22.0003 11.24 22.0003 14.8333V20.6666L19.667 23V24.1666H38.3337V23L36.0003 20.6666ZM33.667 21.8333H24.3337V14.8333C24.3337 11.94 26.0953 9.58329 29.0003 9.58329C31.9053 9.58329 33.667 11.94 33.667 14.8333V21.8333Z" fill="black"/>
-          </svg>
-
+          <IconButton style={iconStyle} onClick={handlenotiClick} onMouseLeave={handleNonotiClick} >
+          <StyledBadge badgeContent={notiNumber} color="secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
+              <rect width="57" height="32" rx="16" fill="#EEEEEE"/>
+              <path d="M29.0003 27.6666C30.2837 27.6666 31.3337 26.6166 31.3337 25.3333H26.667C26.667 26.6166 27.717 27.6666 29.0003 27.6666ZM36.0003 20.6666V14.8333C36.0003 11.2516 34.0987 8.25329 30.7503 7.45996V6.66663C30.7503 5.69829 29.9687 4.91663 29.0003 4.91663C28.032 4.91663 27.2503 5.69829 27.2503 6.66663V7.45996C23.9137 8.25329 22.0003 11.24 22.0003 14.8333V20.6666L19.667 23V24.1666H38.3337V23L36.0003 20.6666ZM33.667 21.8333H24.3337V14.8333C24.3337 11.94 26.0953 9.58329 29.0003 9.58329C31.9053 9.58329 33.667 11.94 33.667 14.8333V21.8333Z" fill="black"/>
+            </svg>
+            </StyledBadge>
           </IconButton>
-              <IconButton style={loginButtonStyle} onClick={handleLogout}>
+
+            <IconButton style={loginButtonStyle} onClick={handleLogout}>
                 <Typography>Logout</Typography>
               </IconButton>
               <IconButton style={iconStyle} >
@@ -462,12 +491,14 @@ const Navbar = () => {
          </IconButton>
             </>
           ) :  isLoggedInWorker ? (
+
+
+
+
+            
             /* When logged in, display these icons */
             <>
-            <IconButton style={iconStyle} >
-
-          <Typography>{Username}</Typography> {/* แสดง Username ที่ได้รับจากการเข้าสู่ระบบ */}
-          </IconButton>
+            
           <IconButton style={iconStyle} onClick={handleBalanceModal}>
 
             <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
@@ -478,8 +509,7 @@ const Navbar = () => {
 
           </IconButton>
          
-          <IconButton style={iconStyle} onMouseEnter={handlenotiClick} onMouseLeave={handleNonotiClick} >
-
+          <IconButton style={iconStyle} onClick={handlenotiClick} onMouseLeave={handleNonotiClick} >
           <svg xmlns="http://www.w3.org/2000/svg" width="57" height="32" viewBox="0 0 57 32" fill="none">
             <rect width="57" height="32" rx="16" fill="#EEEEEE"/>
             <path d="M29.0003 27.6666C30.2837 27.6666 31.3337 26.6166 31.3337 25.3333H26.667C26.667 26.6166 27.717 27.6666 29.0003 27.6666ZM36.0003 20.6666V14.8333C36.0003 11.2516 34.0987 8.25329 30.7503 7.45996V6.66663C30.7503 5.69829 29.9687 4.91663 29.0003 4.91663C28.032 4.91663 27.2503 5.69829 27.2503 6.66663V7.45996C23.9137 8.25329 22.0003 11.24 22.0003 14.8333V20.6666L19.667 23V24.1666H38.3337V23L36.0003 20.6666ZM33.667 21.8333H24.3337V14.8333C24.3337 11.94 26.0953 9.58329 29.0003 9.58329C31.9053 9.58329 33.667 11.94 33.667 14.8333V21.8333Z" fill="black"/>

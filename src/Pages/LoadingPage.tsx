@@ -14,7 +14,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ ticketStatus }) => {
   useEffect(() => {
     const loadingTimeout = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 6000);
 
     return () => {
       clearTimeout(loadingTimeout);

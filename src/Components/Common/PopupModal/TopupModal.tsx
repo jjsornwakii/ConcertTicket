@@ -8,15 +8,13 @@ interface Props {
   iconClose: string;
   iconKeyboardArrow: string;
   Balance: number;
-  // userId: string;
   BalanceCheck: () => Promise<void>;
+  onClose: () => void;
 }
 
-export const TopupModal = ({
-  iconClose = "icon-close.png",
-  iconKeyboardArrow = "icon-keyboard-arrow-down.png",
-  Balance,BalanceCheck
-}: Props): JSX.Element => {
+export const TopupModal = ({ iconClose, iconKeyboardArrow, Balance, BalanceCheck, onClose }: Props): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [inputAddValue, setinputAddValue] = useState('');
 
     const handleInputChange = (e :React.ChangeEvent<HTMLInputElement>) => {
@@ -57,12 +55,12 @@ export const TopupModal = ({
       console.error('Add Balance error:', error);
     }
   };
+
   return (
-    
     <div className="topup-modal">
       <div className="overlap">
         <div className="frame">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" onClick={() => { onClose(); setIsModalOpen(false); }}>
                 <path d="M18.3 5.70997C17.91 5.31997 17.28 5.31997 16.89 5.70997L12 10.59L7.10997 5.69997C6.71997 5.30997 6.08997 5.30997 5.69997 5.69997C5.30997 6.08997 5.30997 6.71997 5.69997 7.10997L10.59 12L5.69997 16.89C5.30997 17.28 5.30997 17.91 5.69997 18.3C6.08997 18.69 6.71997 18.69 7.10997 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.10997C18.68 6.72997 18.68 6.08997 18.3 5.70997Z" fill="black"/>
             </svg>
           <div className="div">
@@ -76,11 +74,7 @@ export const TopupModal = ({
             <div className="frame-3">
               <div className="text-wrapper-3">เติมเงินจำนวน</div>
               <div className="group">
-             
-              
                   <input className="text-wrapper-4" onChange={(e) => handleInputChange(e)} type="text" placeholder="Enter top-up amount" />
-                
-                
               </div>
             </div>
             <div className="frame-3">

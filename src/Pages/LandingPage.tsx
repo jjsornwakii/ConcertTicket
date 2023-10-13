@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { EventData } from './Interface';
 import { dbURL } from '../DB';
+import TicketBagModal from '../Components/Common/PopupModal/TicketBagModal';
+
 
 const LandingPage: React.FC = () => {
 
