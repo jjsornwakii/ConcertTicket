@@ -73,7 +73,7 @@ const LoginModal: React.FC<{
             <Typography fontSize={'20px'} fontWeight={'bold'} marginTop={'10px'}>
               Password
             </Typography>
-            <input type="text"   value={password}  onChange={handlePasswordChange} style={{ width: '296px', marginTop: '5px', height: '25px', borderRadius: '8px' }} />
+            <input type="password"  value={password}  onChange={handlePasswordChange} style={{ width: '296px', marginTop: '5px', height: '25px', borderRadius: '8px' }} />
             <button 
               onClick={handleLoginClick}
               style={{

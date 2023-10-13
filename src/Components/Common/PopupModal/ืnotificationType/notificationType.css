@@ -1,20 +1,20 @@
-#BuyerAccept {
+#block-noti{
     display: flex;
     width: 25.75rem;
     padding: 1.5rem 0rem;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-
+    gap: 1.3125rem;
+    
     border-radius: 0.625rem;
-    background: #EDE7E3;
+    background-color: #EDE7E3;
 
     justify-content: center;
 }
 
 #block-text{
     display: flex;
-    padding: 0rem 0.9375rem;
+    padding: 0rem 1.875rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -41,13 +41,22 @@
 
 #block-btn{
     display: flex;
-    justify-content: center;  /* Horizontally center the content */
-    align-items: center;      /* Vertically center the content */
-    align-self: center;       /* Horizontally center within the parent */
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+#block-btn.two-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5625rem;
+    align-self: stretch;
+    /* background-color: red; */
 }
 
 
-#block-btn #btn{
+#btn{
     display: flex;
     height: 1.5rem;
     padding: 0.3125rem 3.125rem;
@@ -64,6 +73,6 @@
     line-height: normal;
 }
 
-#block-btn #btn.reject{
+#btn.reject{
     background: #888;
 }

@@ -14,8 +14,6 @@ export interface EventData {
 
 export interface UserData {
 
-
-  
   user_id:string;
   created_at: string;
   username: string;
@@ -39,7 +37,7 @@ export interface Employ{
 export interface GetHiringByBuyerId {
 
   id: number,
-  created_a: string,
+  created_at: string,
   Ticketpay: number,
   TicketNum: number,
   buyer_id: number,
@@ -57,7 +55,7 @@ export interface GetHiringByBuyerId {
 export interface GetHiringByReceiverId{
 
   id: number,
-  created_a: string,
+  created_at: string,
   Ticketpay: number,
   TicketNum: number,
   buyer_id: number,
