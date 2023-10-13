@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { EventData } from './Interface';
 import { dbURL } from '../DB';
+import TicketBagModal from '../Components/Common/PopupModal/TicketBagModal';
+
 
 const LandingPage: React.FC = () => {
 
@@ -98,7 +100,7 @@ const LandingPage: React.FC = () => {
       <div key={concert.id} style={Listpic}>
         <img src={concert.PhotoUrl} alt="Girl in a jacket" width="230" height="250"></img>
         <div style={information}>
-          <Typography color={'black'} fontWeight={'bold'}>{concert.name}</Typography>
+          <Typography color={'black'} fontWeight={'bold'} whiteSpace={"nowrap"} textOverflow={"ellipsis"} overflow={"hidden"}>{concert.name}</Typography>
           <Typography color={'black'} fontSize={'15px'}>{concert.Start}</Typography>
           <Typography color={'black'} fontWeight={'bold'} fontSize={'12px'} marginTop={'5px'}>{concert.price}</Typography>
         </div>
@@ -111,7 +113,7 @@ const LandingPage: React.FC = () => {
       <div key={concert.id} style={Listpic}>
         <img src={concert.PhotoUrl} alt="Girl in a jacket" width="230" height="250"></img>
         <div style={information}>
-          <Typography color={'black'} fontWeight={'bold'}>{concert.name}</Typography>
+          <Typography color={'black'} fontWeight={'bold'}whiteSpace={"nowrap"} textOverflow={"ellipsis"} overflow={"hidden"}> {concert.name}</Typography>
           <Typography color={'black'} fontSize={'15px'}>{concert.Start}</Typography>
           <Typography color={'black'} fontWeight={'bold'} fontSize={'12px'} marginTop={'5px'}>{concert.price}</Typography>
         </div>
