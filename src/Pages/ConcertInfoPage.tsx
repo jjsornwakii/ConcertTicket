@@ -200,10 +200,10 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
 
     const currentTime = new Date();
     const allowedStartTime = new Date(currentTime);
-    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (13:00)
+    allowedStartTime.setHours(0, 0, 0); // เวลาเริ่มต้นที่อนุญาตให้กดบัตร (0:00)
 
     const allowedEndTime = new Date(currentTime);
-    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (16:00)
+    allowedEndTime.setHours(23, 0, 0); // เวลาสิ้นสุดที่อนุญาตให้กดบัตร (23:00)
 
     if (currentTime >= allowedStartTime && currentTime <= allowedEndTime) {
       const postData = {
@@ -272,7 +272,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
             <h2 id="concertTicket">{selectedConcert?.price} THB</h2> {/* Display ticket price here */}
 
             {role === 'user' ? (
-              <Link to="/loading">
+              <Link to="/loading" style={{ textDecoration: 'none' }}  >
                 <button type="button" style={{ cursor: 'pointer',}} id="btn1" onClick={() => handleGetTicketsClick(UserID, 1, conName)}>GET TICKETS</button>
               </Link>
             ) : (
