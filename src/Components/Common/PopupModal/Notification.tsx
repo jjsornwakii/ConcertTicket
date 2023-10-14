@@ -22,9 +22,11 @@ interface NotificationProps {
   isOpen: boolean;
   onClose: () => void;
   customStyles?: CustomStyles;
+  status: number | null; // Accept status as a prop
+  
 }
 
-const Notification: React.FC<NotificationProps> = ({ isOpen, onClose, customStyles }) => {
+const Notification: React.FC<NotificationProps> = ({ isOpen, onClose, customStyles, status }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -36,6 +38,12 @@ const Notification: React.FC<NotificationProps> = ({ isOpen, onClose, customStyl
       }, 2000);
     }
   }, [isOpen, onClose]);
+
+  // Customize the content based on the status
+  let message = 'ฝากซื้อสำเร็จ';
+  if (status === 500) {
+    message = 'เงินไม่พอ';
+  }
 
   return (
     <Modal
@@ -61,7 +69,7 @@ const Notification: React.FC<NotificationProps> = ({ isOpen, onClose, customStyl
         },
       }}
     >
-      <h2>จ้างสำเร็จ</h2>
+      {message}
     </Modal>
   );
 };

@@ -332,7 +332,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
                           จ้าง
                         </button>
                       </div>
-                      <Notification isOpen={notificationOpen} onClose={closeNotification} />
+                      
                     </div>
                   </div>
 
