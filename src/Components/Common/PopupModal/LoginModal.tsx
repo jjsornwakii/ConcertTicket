@@ -62,12 +62,12 @@ const LoginModal: React.FC<{
             Login
           </Typography>
           <Typography fontWeight={'bold'} fontSize={'14px'} marginLeft={'25px'}>
-            Enter your email and password
+            Enter your username and password
           </Typography>
 
           <div style={contentstyle}>
             <Typography fontSize={'20px'} fontWeight={'bold'} marginTop={'15px'}>
-              Email
+              Username
             </Typography>
             <input type="text"value={username} onChange={handleEmailChange} style={{ width: '296px', marginTop: '5px', height: '25px', borderRadius: '8px' }} />
             <Typography fontSize={'20px'} fontWeight={'bold'} marginTop={'10px'}>
