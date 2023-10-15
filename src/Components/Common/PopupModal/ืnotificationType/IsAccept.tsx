@@ -50,7 +50,7 @@ function IsAccept({ data }: Props) {
       </Typography>
       {!data.Accepting ? (
         <Typography id="Typography">
-          คุณส่งคำสั่งซื้อให้ {data.buyer_username} แล้ว กรุณารอการตอบรับ
+          คุณส่งคำสั่งซื้อให้ {data.buyer_username} บัตร {data.concert_name} จำนวน {data.TicketNum} ใบ แล้ว กรุณารอการตอบรับ
         </Typography>
       ) : (
         <Typography id="Typography">

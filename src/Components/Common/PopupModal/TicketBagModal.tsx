@@ -95,7 +95,7 @@ const TicketBagModal: React.FC<{
         display: "flex",
         height: "117px",
         padding: "7px 16px",
-        justifyContent: "center",
+        
         alignItems: "center",
         gap: "13px",
         alignSelf: "stretch",
@@ -106,8 +106,8 @@ const TicketBagModal: React.FC<{
       <div
         id="image"
         style={{
-          width: "120px",
-          height: "90px",
+          width: "70px",
+          height: "100px",
           borderRadius: "12px",
           background: "#FFA62B",
           display: "flex",
@@ -117,7 +117,7 @@ const TicketBagModal: React.FC<{
       ><img
       src={ticket.url}
       alt="Concert Image"
-      style={{ width: "60px", height: "auto"}}
+      style={{ width: "60px", height: "80px"}}
     /></div>
       <div
         id="info"
