@@ -280,7 +280,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
             <h2 id="concertTicket">{selectedConcert?.price} THB</h2> {/* Display ticket price here */}
 
             {role === 'user' ? (
-              <Link to="/loading">
+              <Link to="/loading" style={{ textDecoration: 'none' }}  >
                 <button type="button" style={{ cursor: 'pointer',}} id="btn1" onClick={() => handleGetTicketsClick(UserID, 1, conName)}>GET TICKETS</button>
               </Link>
             ) : (
@@ -340,7 +340,7 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
                           จ้าง
                         </button>
                       </div>
-                      <Notification isOpen={notificationOpen} onClose={closeNotification} />
+                      
                     </div>
                   </div>
 

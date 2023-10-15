@@ -65,6 +65,7 @@ const LandingPage: React.FC = () => {
     flexShrink: 0,
     flexWrap: 'wrap', 
     overflow: 'hidden',
+    textDecoration:"none"
   };
 
 
@@ -95,7 +96,7 @@ const LandingPage: React.FC = () => {
 
   // Generate Listpic elements
   const listPics = concertData.map((concert) => (
-    <Link key={concert.id} to={`/concert-info/${concert.id}`}> {/* เพิ่ม URL parameter */}
+    <Link key={concert.id} to={`/concert-info/${concert.id}`} style={{ textDecoration: 'none' }}> {/* เพิ่ม URL parameter */}
 
       <div key={concert.id} style={Listpic}>
         <img src={concert.PhotoUrl} alt="Girl in a jacket" width="230" height="250"></img>
@@ -110,7 +111,7 @@ const LandingPage: React.FC = () => {
 
   const listPicsHiring = concertData.map((concert) => (
   
-      <div key={concert.id} style={Listpic}>
+      <div key={concert.id} style={Listpic} >
         <img src={concert.PhotoUrl} alt="Girl in a jacket" width="230" height="250"></img>
         <div style={information}>
           <Typography color={'black'} fontWeight={'bold'}whiteSpace={"nowrap"} textOverflow={"ellipsis"} overflow={"hidden"}> {concert.name}</Typography>

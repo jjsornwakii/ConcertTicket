@@ -104,7 +104,7 @@ function GetRequest({ data }: Props) {
 
         <div id="block-btn" className="two-btn">
           {data.Accepting ? (
-              <Link to={`http://localhost:3000/concert-info/${data.concert_id}`} state={data}>
+              <Link to={`concert-info/${data.concert_id}`} state={data}>
               <IconButton
               id="btn"
                 >
