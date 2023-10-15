@@ -189,11 +189,19 @@ const ConcertInfoPage = ({ setTicketStatus }: { setTicketStatus: Function }) => 
       console.log(response.data);
       console.log("ซื้อให้ลูกค้าสำเร็จ");
 
+      navigate('/loading');
+      if (response.status === 200) {
+        setTicketStatus(true);
+        console.log('กดบัตรได้แล้ว ไอเวร');
+      } else {
+        setTicketStatus(false);
+        console.log('กดช้าไป โง่นัก');
+      }
+      
     } catch (error) {
       // Handle errors
       console.error('TicketList error:', error);
     }
-
   };
 
   const handleGetTicketsClick = async (_user_id: string, ticket: number, concert_name: string) => {
