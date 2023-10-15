@@ -107,7 +107,7 @@ const TicketBagModal: React.FC<{
         id="image"
         style={{
           width: "70px",
-          height: "100px",
+          height: "90px",
           borderRadius: "12px",
           background: "#FFA62B",
           display: "flex",
@@ -117,7 +117,7 @@ const TicketBagModal: React.FC<{
       ><img
       src={ticket.url}
       alt="Concert Image"
-      style={{ width: "60px", height: "80px"}}
+      style={{ width: "60px", height: "80px", borderRadius:"12px"}}
     /></div>
       <div
         id="info"
