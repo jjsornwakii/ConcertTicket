@@ -132,9 +132,6 @@ const [myList, setList] = useState<GetHiringByBuyerId[]>([]); //got request from
   // เรียกใช้ checkLoggedIn ใน useEffect เมื่อคอมโพเนนต์ถูกโหลด
   useEffect(() => {
     checkLoggedIn();
-    
-
-
   }, []);
 
   useEffect(() => {
@@ -299,19 +296,28 @@ const [myList, setList] = useState<GetHiringByBuyerId[]>([]); //got request from
 
 
 useEffect(() => {
-
-  console.log(role);
-  if (role === "hiring" || role === "worker"){
-    getReqListByBuyerId(UserID);
-  }
-  else{
+  // สร้างฟังก์ชันที่ต้องการเรียกทุก 5 วินาที
+  const fetchDataAndSetNotiNumber = () => {
+    console.log(role);
+    if (role === 'hiring' || role === 'worker') {
+      getReqListByBuyerId(UserID);
+    } else {
       getAcceptListByReceiverId(UserID);
-  }
+    }
 
-  filteredList = myList.filter((item) => item.Complete === false);
+    const filteredList = myList.filter((item) => item.Complete === false);
 
-  setNotiNumber(filteredList.length);
-},  );
+    setNotiNumber(filteredList.length);
+  };
+
+  // เรียก fetchDataAndSetNotiNumber ทุก 5 วินาที
+  const intervalId = setInterval(fetchDataAndSetNotiNumber, 5000);
+
+  // เมื่อ component ถูก unmount ให้ล้าง interval
+  return () => {
+    clearInterval(intervalId);
+  };
+}, [role, UserID, myList]);
 
 
  async function getReqListByBuyerId(buyer_id: string) {
