@@ -6,52 +6,57 @@ import GetRequest from './ืnotificationType/GetRequest';
 import PayingModal from './PayingModal';
 import axios from 'axios';
 import { dbURL } from '../../../DB';
-import { UserID, filteredList, hookupUrl } from '../NavBar';
+import { UserID, hookupUrl } from '../NavBar';
 import { GetHiringByBuyerId } from '../../../Pages/Interface';
 
-
-
-
 const NotiList: React.FC = () => {
+  const [myList, setMyList] = useState<GetHiringByBuyerId[]>([]);
+  const [role, setRole] = useState<string | null>(localStorage.getItem('role'));
 
-  //    {/* User */}
-  //   const [isAcceptNoti, setisAcceptNoti] = useState(true);//worker is accept
-  //   const [isdeclineNoti, setisdeclineNoti] = useState(false);//woker is decline
-  //   const [isGotticket, setisGotticket] = useState(false);//user is got ticker
-  //   const [isGotticketFail, setisGotticketFail] = useState(false);//user fail to get ticket 
+  useEffect(() => {
+    async function getReqListByBuyerId(buyer_id: string) {
+      const body = { buyer_id: buyer_id };
+      try {
+        const response = await axios.post(hookupUrl + dbURL + 'concerts/hiringAll', body);
+        console.log('Response:', response.data);
+        setMyList(response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
 
+    async function getAcceptListByReceiverId(receiver_id: string) {
+      const body = { reciever_id: receiver_id };
+      try {
+        const response = await axios.post(hookupUrl + dbURL + 'concerts/recieveAll', body);
+        console.log('Response:', response.data);
+        setMyList(response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
 
-  //    {/* Worker */}
-  const [isGotRequest, setisGotRequest] = useState(true); //got request from user
-  //   const [isGotMoney, setisGotMoney] = useState(false);//got money from user
-  var [myList, setList] = useState<GetHiringByBuyerId[]>([]); //got request from user
+    console.log(role);
+    if (role === 'hiring' || role === 'worker') {
+      getReqListByBuyerId(UserID);
+    } else {
+      getAcceptListByReceiverId(UserID);
+    }
+  }, [role, UserID]);
 
-
-  var role = localStorage.getItem('role');
-
-  
-
-
-  console.log(role);
-
-  
-
-
+  const filteredList2 = myList.filter((item) => item.Complete === false);
 
   return (
     <>
       {role === 'hiring' ? (
-        filteredList.map((item) => (
-          
+        filteredList2.map((item) => (
           <GetRequest key={item.id} data={item} />
-          
         ))
       ) : (
-        filteredList.map((item) => (
+        filteredList2.map((item) => (
           <IsAccept key={item.id} data={item} />
         ))
       )}
-
     </>
   );
 };

@@ -8,6 +8,7 @@ import TicketBagModal from '../Components/Common/PopupModal/TicketBagModal';
 
 const LandingPage: React.FC = () => {
 
+  
   var role = localStorage.getItem("role");
 
   const Headdiv: React.CSSProperties = {

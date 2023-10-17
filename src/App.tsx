@@ -27,7 +27,8 @@ const App: React.FC = () => {
     <Router>
       <Navbar/>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage /> } />
+        
         <Route
           path="/concert-info/:concertId"
           element={

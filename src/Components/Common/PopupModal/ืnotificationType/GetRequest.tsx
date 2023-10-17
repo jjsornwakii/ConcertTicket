@@ -17,7 +17,8 @@ interface Props {
 }
 
 function GetRequest({ data }: Props) {
-
+  const [isAccepted, setIsAccepted] = useState(false);
+  const [isRejected, setIsRejected] = useState(false);
 
  const ClickToAccept = async (id:number,buyer_id: number,Concert_name:string,reciever_id:number) => {
   
@@ -43,7 +44,8 @@ function GetRequest({ data }: Props) {
     console.error('TicketList error:', error);
   }
 
-  window.location.reload();
+  //window.location.reload();
+  setIsAccepted(true);
 
  };
 
@@ -70,19 +72,20 @@ function GetRequest({ data }: Props) {
     // Handle errors
     console.error('TicketList error:', error);
   }
-  window.location.reload();
- };
+  //window.location.reload();
+  setIsRejected(true);
+};
 
-  useEffect(() => {
+useEffect(() => {}, []);
 
-  }, []);
-
-  return (
-
-    <div>
+return (
+  <div>
+    {isRejected  ? (
+      null // If isRejected or isAccepted is true, don't render anything
+    ) : (
       <div id="block-noti">
         <div id="block-text">
-          <Typography id="Typography" className="h1">
+        <Typography id="Typography" className="h1">
             Notification order #{data.id}
           </Typography>
           <Typography id="Typography" >
@@ -102,38 +105,35 @@ function GetRequest({ data }: Props) {
           </Typography>
         </div>
 
-        <div id="block-btn" className="two-btn">
-          {data.Accepting ? (
-              <Link to={`concert-info/${data.concert_id}`} state={data}>
+        <div id="block-btn" className="two-btn" >
+          {data.Accepting || isAccepted ? (
+            <Link to={`concert-info/${data.concert_id}`} state={data} style={{ textDecoration: 'none' }}>
+              <IconButton id="btn" >
+                กดบัตร
+              </IconButton>
+            </Link>
+          ) : (
+            <>
               <IconButton
-              id="btn"
-                >
-                  กดบัตร
-                </IconButton>
-                </Link>
-            ) : (
-              // Render this content if data.Accepting is not true
-              <>
-                <IconButton
                 id="btn"
-                  onClick={() => ClickToAccept(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
-                
-                >
-                  รับงาน
-                </IconButton>
-                <IconButton
+                onClick={() => ClickToAccept(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
+              >
+                รับงาน
+              </IconButton>
+              <IconButton
                 id="btn"
                 className="reject"
-                  onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
-                >
-                  ปฏิเสธ
-                </IconButton>
-              </>
-            )}
+                onClick={() => ClickToReject(data.id, data.buyer_id, data.concert_name, data.reciever_id)}
+              >
+                ปฏิเสธ
+              </IconButton>
+            </>
+          )}
         </div>
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 }
 
 export default GetRequest;
